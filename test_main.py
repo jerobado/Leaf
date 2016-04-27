@@ -37,7 +37,8 @@ class Leaf(threading.Thread):
                    'onion': 15,
                    'eggplant': 30,
                    'melon': 900,
-                   'test': 5}
+                   'test': 5,
+                   'strawberry': 225}
 
     def __init__(self, seed=None):
         threading.Thread.__init__(self)
