@@ -2,6 +2,7 @@
     This file is going to be the new version of main.py
 """
 
+import sys
 import threading
 import time
 
@@ -20,10 +21,21 @@ __version__ = 0.1
 def play_messenger():
     """ Play a sound that was inspired from Facebook Messenger """
 
-    sound = 'messenger-sound-notification.wav'
+    sound = 'audio/wav/messenger-sound-notification.wav'
 
     import winsound
     winsound.PlaySound(sound, winsound.SND_FILENAME)
+
+
+def play_real_music():
+    """ Play a nice chilling song #eurekamoment """
+
+    import vlc
+
+    song = 'audio/mp3/Oo - Up Dharma Down.mp3'
+    leaf_music_player = vlc.MediaPlayer(song)
+    leaf_music_player.play()
+    print("enjoy your music while planting :)")
 
 
 class Leaf(threading.Thread):
@@ -38,7 +50,8 @@ class Leaf(threading.Thread):
                    'eggplant': 30,
                    'melon': 900,
                    'test': 5,
-                   'strawberry': 225}
+                   'strawberry': 225,
+                   'guaba': 239}
 
     def __init__(self, seed=None):
         threading.Thread.__init__(self)
@@ -52,15 +65,23 @@ class Leaf(threading.Thread):
     def whats_planting(self):
         """ Show active thread """
 
-        print("planting %s..." % self.seed)
+        print("planting %s" % self.seed)
 
 
 if __name__ == '__main__':
     game = Leaf()
+
     while True:
         seed = input("leaf :: ")
+        if seed in ['exit', 'quit']:      # TODO: you need to have a list of commands here
+            sys.exit()
+
         if seed in game.seed_basket:
             game = Leaf(seed)
+
+            if seed == 'guaba':     # Eureka moment
+                play_real_music()
+
             game.whats_planting()
             game.start()
         else:
