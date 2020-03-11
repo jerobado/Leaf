@@ -1,4 +1,9 @@
-*.name
-.idea/dictionaries/Jero.xml
-*.xml
-.idea/Project-LEF.iml
+# Python artifacts
+__pycache__
+*.pyc
+
+# PyCharm stuff
+.idea
+
+# Personal files
+_todo.txt
