@@ -2,7 +2,7 @@ import sys
 
 from threading import Timer
 
-from player import Player
+from src.leaf.player import Player
 
 
 if __name__ == '__main__':
