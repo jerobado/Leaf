@@ -1,21 +1,50 @@
-# creating a simple game loop
+"""
+Leaf - simple text-based planting game for the bored developer.
+"""
 
 import sys
 import time
 
+__version__ = '0.1.1'
 COMMAND = None
 command = None
 ARGUMENT = None
 argument = None
 INVENTORY = {'seeds': ['tomato', 'chili pepper']}
+HELP = """\nLeaf valid commands:\n
+    till*           - till the current spot/location
+    plant* <seed>    - plant a particular seed
+    water           - water current spot/location
+    fertilize       - add fertilizer to current spot/location
+    
+    inventory       - display current items in inventory
+    market          - go the market and shop for goods
+    buy             - buy item
+    sell            - sell item
+    
+    help*            - show this help information
+    exit or quit*    - exit the application
+
+* - currently working"""
 
 
 def game_loop():
 
+    welcome_message()
     while True:
         get_commmand()
         process_command()
         display_result()
+
+
+def welcome_message():
+
+    message = f'Leaf\n' \
+              f'Simple text-based planting game for the bored developer.\n' \
+              f'-------------------------------------------------------- \
+                \n\nVersion: {__version__}' \
+              f'\n\nType \'help\' for the list of valid commands.'
+    print(f'{message}')
 
 
 def get_commmand():
@@ -25,7 +54,8 @@ def get_commmand():
     global ARGUMENT
     global argument
 
-    user_input = str(input('leaf > ')).split(maxsplit=1)
+    # [] TODO: test parsing of user input
+    user_input = str(input('\nLEAF > ')).split(maxsplit=1)
 
     if len(user_input) > 1:
         COMMAND, ARGUMENT = user_input
@@ -52,25 +82,11 @@ def process_command():
         sys.exit()
 
     elif command == 'help':
-        help = """\nValid commands:
-        till            - till the current spot/location
-        plant <seed>    - plant a particular seed
-        water           - water current spot/location
-        fertilize       - add fertilizer to current spot/location
-
-        market          - go the market and shop for goods
-        buy             - buy item
-        sell            - sell item
-        inventory       - display current items in inventory
-
-        help            - show this help information
-        exit or quit    - exit the application
-        """
-        print(help)
+        print(HELP)
 
     elif command == 'till':
-        print('tilling the soil')
-        time.sleep(3)
+        print('*tilling the soil*')
+        time.sleep(4)
         print('soil tilled!')
 
     elif command == 'plant':
@@ -80,16 +96,19 @@ def process_command():
                 time.sleep(5)
                 print(f'{argument} planted!')
             else:
-                print(f'{argument} not in inventory')
+                print(f'\'{argument}\' not in inventory')
         else:
-            print('incomeplete command, must be `plant <seed>')
+            print('incomplete command, must be plant <seed>')
+
+    else:
+        print(f'\'{command}\' is not a valid command.\n{HELP}')
 
 
 def display_result():
 
+    # [] TODO: get data to output from process_command function
     ...
 
 
 if __name__ == "__main__":
     game_loop()
-
