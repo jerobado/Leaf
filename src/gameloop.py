@@ -15,10 +15,11 @@ HELP = """\nLeaf valid commands:\n
     till*           - till the current spot/location
     plant* <seed>    - plant a particular seed
     water           - water current spot/location
+    harvest         - harvest fully grown crop
     fertilize       - add fertilizer to current spot/location
     
     inventory       - display current items in inventory
-    market          - go the market and shop for goods
+    market          - visit the farmer's market
     buy             - buy item
     sell            - sell item
     
