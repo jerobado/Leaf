@@ -1,5 +1,5 @@
 """
-Leaf - simple text-based planting game for the bored developer.
+Leaf - simple text-based farming game for the bored developer.
 """
 
 import sys
@@ -15,8 +15,10 @@ HELP = """\nLeaf valid commands:\n
     till*           - till the current spot/location
     plant* <seed>    - plant a particular seed
     water           - water current spot/location
-    harvest         - harvest fully grown crop
     fertilize       - add fertilizer to current spot/location
+    harvest         - harvest fully grown crop
+
+    check           - examine soil
     
     inventory       - display current items in inventory
     market          - visit the farmer's market
@@ -86,14 +88,14 @@ def process_command():
         print(HELP)
 
     elif command == 'till':
-        print('*tilling the soil*')
+        print('tilling the soil...')
         time.sleep(4)
         print('soil tilled!')
 
     elif command == 'plant':
         if argument:
             if argument in seeds:
-                print(f'planting {argument}')
+                print(f'planting {argument}...')
                 time.sleep(5)
                 print(f'{argument} planted!')
             else:

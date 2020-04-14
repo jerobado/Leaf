@@ -1,3 +1,3 @@
 Leaf
 ----
-A simple text-base planting game for the bored developer.
+A simple text-based farming game for the bored developer.
