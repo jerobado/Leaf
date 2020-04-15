@@ -2,6 +2,7 @@ import unittest
 import sys
 
 
+# Unit testing
 class LeafTestCase(unittest.TestCase):
 
     def test_single_command(self):
@@ -29,6 +30,12 @@ class LeafTestCase(unittest.TestCase):
         expected = 2
 
         self.assertEqual(expected, result)
+
+
+# Integration testing
+class LeafIntegrationTesting(unittest.TestCase):
+
+    ...
 
 
 if __name__ == '__main__':
