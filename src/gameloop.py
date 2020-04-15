@@ -43,7 +43,7 @@ def game_loop():
 def welcome_message():
 
     message = f'Leaf\n' \
-              f'Simple text-based planting game for the bored developer.\n' \
+              f'Simple text-based farming game for the bored developer.\n' \
               f'-------------------------------------------------------- \
                 \n\nVersion: {__version__}' \
               f'\n\nType \'help\' for the list of valid commands.'
@@ -102,6 +102,14 @@ def process_command():
                 print(f'\'{argument}\' not in inventory')
         else:
             print('incomplete command, must be plant <seed>')
+
+    elif command == 'check':
+        # [] TODO: display growth percentage of planted crop
+        print('# TODO: display growth percentage of planted crop')
+
+    elif command == 'harvest':
+        # [] TODO: display harvestable (100% growth) crops
+        print('# TODO: display harvestable (100% growth) crops')
 
     else:
         print(f'\'{command}\' is not a valid command.\n{HELP}')
