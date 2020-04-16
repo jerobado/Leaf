@@ -1,6 +1,8 @@
 import unittest
 import sys
 
+from src.mechanics import GameMechanics
+
 
 # Unit testing
 class LeafTestCase(unittest.TestCase):
@@ -12,7 +14,7 @@ class LeafTestCase(unittest.TestCase):
         i.e. LEAF > till
         """
 
-        command = input('LEAF (single) > ').split(maxsplit=1)
+        command = 'till'.split(maxsplit=1)
         result = len(command)
         expected = 1
 
@@ -25,9 +27,27 @@ class LeafTestCase(unittest.TestCase):
         i.e. LEAF > plant tomato
         """
 
-        command = input('LEAF (multiple) > ').split(maxsplit=1)
+        command = 'plant tomato'.split(maxsplit=1)
         result = len(command)
         expected = 2
+
+        self.assertEqual(expected, result)
+
+    def test_if_command_exists(self):
+
+        command = 'help'
+        game = GameMechanics()
+        result = command in game.COMMANDS.keys()
+        expected = True
+
+        self.assertEqual(expected, result)
+
+    def test_assigning_and_executing_class_method(self):
+
+        game = GameMechanics()
+        execute = game.help
+        result = execute()
+        expected = None
 
         self.assertEqual(expected, result)
 
@@ -35,7 +55,9 @@ class LeafTestCase(unittest.TestCase):
 # Integration testing
 class LeafIntegrationTesting(unittest.TestCase):
 
-    ...
+    def test_game_loop_flow(self):
+
+        ...
 
 
 if __name__ == '__main__':
