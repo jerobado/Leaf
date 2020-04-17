@@ -2,6 +2,7 @@
 
 import sys
 import time
+import threading
 
 __version__ = '0.1.2'
 
@@ -10,37 +11,37 @@ class GameMechanics:
 
     def __init__(self):
 
-        self.COMMANDS = {'help': self.help,
-                         'quit': self.quit}
-
-        self._combine_commands()
-
-        self.rCommand = None    # user's raw command(s)
+        self.GAME_COMMANDS = {'help': self.help,
+                              'quit': self.quit}
+        self.playerMechanics = PlayerMechanics()
+        self.rCommand = None        # user's raw command(s)
         self.command = None
         self.argument = None
-        self.task = None        # function to execute
-        self.multiple = bool    # multiple commands or single
+        self.task = None            # function to execute
+        self.multiple = bool        # multiple commands or single
+
+        self._combine_commands()
 
     def help(self):
 
         HELP = """\nLeaf valid commands:\n
-            till*           - till the current spot/location
-            plant* <seed>    - plant a particular seed
-            water           - water current spot/location
-            fertilize       - add fertilizer to current spot/location
-            harvest         - harvest fully grown crop
+        till*           - till the current spot/location
+        plant* <seed>   - plant a particular seed
+        water           - water current spot/location
+        fertilize       - add fertilizer to current spot/location
+        harvest         - harvest fully grown crop
 
-            check           - examine soil
+        check*          - examine soil
 
-            inventory       - display current items in inventory
-            market          - visit the farmer's market
-            buy             - buy item
-            sell            - sell item
+        inventory       - display current items in inventory
+        market          - visit the farmer's market
+        buy             - buy item
+        sell            - sell item
 
-            help*            - show this help information
-            exit or quit*    - exit the application
+        help*           - show this help information
+        quit*           - exit the application
 
-        * - currently working"""
+    * - currently working"""
         print(HELP)
 
     def quit(self):
@@ -82,22 +83,22 @@ class GameMechanics:
 
     def get_command_type(self):
 
-        self.task = self.COMMANDS.get(self.command,
-                                      self._unrecognized_command)
+        self.task = self.GAME_COMMANDS.get(self.command,
+                                           self._unrecognized_command)
 
     def process_commands(self):
 
         if self.multiple:
             self.task(self.argument)
         else:
+            # [] TODO: test if the user add an extra argument which should not be
             self.task()
 
     def _combine_commands(self):
 
-        player = PlayerMechanics()
-        self.COMMANDS.update(player.COMMANDS)
+        self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
 
-    # Game command errors
+    # GameMechanics command errors
     def _unrecognized_command(self):
 
         print(f'\'{self.command}\' is not a valid command.\nSee \'help\' command.')
@@ -111,25 +112,31 @@ class PlayerMechanics:
 
     def __init__(self):
 
-        self.COMMANDS = {'till': self.till,
-                         'plant': self.plant,
-                         'check': self.check,
-                         'harvest': self.harvest}
+        self.PLAYER_COMMANDS = {'till': self.till,
+                                'plant': self.plant,
+                                'check': self.check,
+                                'harvest': self.harvest}
 
-        self.player_inventory = InventoryMechanics()
+        self.playerInventoryMechanics = InventoryMechanics()
+        self.plantGrowthMechanics = None
+        self.growing_plants = list()
 
     def till(self):
 
         print('tilling the soil...')
-        time.sleep(4)
+        time.sleep(5)
         print('soil tilled!')
 
     def plant(self, seed=None):
 
         if seed:
-            if seed in self.player_inventory.seeds.keys():
+            if seed in self.playerInventoryMechanics.seeds.keys():
                 print(f'planting {seed}...')
-                time.sleep(5)
+                time.sleep(3)
+                # start growing plant
+                self.plantGrowthMechanics = GrowthMechanics(seed, duration=self.playerInventoryMechanics.seeds[seed])
+                self.growing_plants.append(self.plantGrowthMechanics)
+                self.plantGrowthMechanics.start()
                 print(f'{seed} planted!')
             else:
                 print(f'You don\'t have a \'{seed}\' in your inventory.')
@@ -139,11 +146,15 @@ class PlayerMechanics:
     def check(self):
 
         # [] TODO: display growth percentage of planted crop
-        print('# TODO: display growth percentage of planted crop')
+        # [] TODO: display active and non-active threads
+        # [] TODO: status: currently thorws a NoneType error when there is no running thread
+        for plant in self.growing_plants:
+            print(plant.ident, plant.native_id, plant.name, plant.is_alive())
 
     def harvest(self):
 
         # [] TODO: display harvestable (100% growth) crops
+        # [] TODO: IDEA: harvest is just removing completed thread on a list thread
         print('# TODO: display harvestable (100% growth) crops')
 
 
@@ -151,6 +162,19 @@ class InventoryMechanics:
 
     def __init__(self):
 
-        # seed, time to grow
-        self.seeds = {'tomato': 5,
-                      'lettuce': 6}
+        # seed, duration (seconds)
+        self.seeds = {'tomato': 15,
+                      'lettuce': 16}
+
+
+class GrowthMechanics(threading.Thread):
+
+    def __init__(self, seed, duration):
+
+        super().__init__()
+        self.name = seed
+        self.duration = duration
+
+    def run(self):
+
+        time.sleep(self.duration)

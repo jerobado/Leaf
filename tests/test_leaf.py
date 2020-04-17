@@ -37,7 +37,7 @@ class LeafTestCase(unittest.TestCase):
 
         command = 'help'
         game = GameMechanics()
-        result = command in game.COMMANDS.keys()
+        result = command in game.GAME_COMMANDS.keys()
         expected = True
 
         self.assertEqual(expected, result)
