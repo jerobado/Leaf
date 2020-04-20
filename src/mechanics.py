@@ -1,10 +1,12 @@
 # Classes of game mechanics
 
+
 import sys
 import time
 import threading
+from collections import deque
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 
 class GameMechanics:
@@ -29,7 +31,7 @@ class GameMechanics:
         plant* <seed>   - plant a particular seed
         water           - water current spot/location
         fertilize       - add fertilizer to current spot/location
-        harvest         - harvest fully grown crop
+        harvest*        - harvest fully grown crop
 
         check*          - examine soil
 
@@ -119,10 +121,11 @@ class PlayerMechanics:
 
         self.playerInventoryMechanics = InventoryMechanics()
         self.plantGrowthMechanics = None
-        self.growing_plants = list()
+        self.growing_plants = deque()        # list of active and non-active threads
 
     def till(self):
 
+        # [] TODO: add a mechanics that will prevent other commands from executing if this is not executed first
         print('tilling the soil...')
         time.sleep(5)
         print('soil tilled!')
@@ -131,6 +134,7 @@ class PlayerMechanics:
 
         if seed:
             if seed in self.playerInventoryMechanics.seeds.keys():
+                # [] TODO: deduct 1 seed to player's inventory
                 print(f'planting {seed}...')
                 time.sleep(3)
                 # start growing plant
@@ -148,14 +152,17 @@ class PlayerMechanics:
         # [] TODO: display growth percentage of planted crop
         # [] TODO: display active and non-active threads
         # [] TODO: status: currently thorws a NoneType error when there is no running thread
-        for plant in self.growing_plants:
-            print(plant.ident, plant.native_id, plant.name, plant.is_alive())
+        for id, plant in enumerate(self.growing_plants):
+            print(id, plant.name, plant.is_alive())
 
     def harvest(self):
 
         # [] TODO: display harvestable (100% growth) crops
-        # [] TODO: IDEA: harvest is just removing completed thread on a list thread
-        print('# TODO: display harvestable (100% growth) crops')
+        # [] TODO: you can only harvest thread that completed its task
+        if self.growing_plants:
+            print(f'Harvesting \'{self.growing_plants.popleft().name}\'...')
+            time.sleep(4)
+            print('Done!')
 
 
 class InventoryMechanics:
