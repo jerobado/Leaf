@@ -4,60 +4,46 @@ import sys
 from src.mechanics import GameMechanics
 
 
-# Unit testing
-class LeafTestCase(unittest.TestCase):
+class TestGameMechanics(unittest.TestCase):
 
-    def test_single_command(self):
-        """
-        Test to accept only single command.
+    def setUp(self):
 
-        i.e. LEAF > till
-        """
+        self.leafGameMechanics = GameMechanics()
 
-        command = 'till'.split(maxsplit=1)
-        result = len(command)
-        expected = 1
+    def test_GET_COMMANDS_function(self):
 
-        self.assertEqual(expected, result)
+        single_commands = 'till'
+        multiple_commands = 'plant lettuce'
 
-    def test_multiple_commands(self):
-        """
-        Test to accept multiple commands.
+        # See GameMechanics.get_commands() function for the full implementation
+        single_result = single_commands.split(maxsplit=1)
+        multiple_result = multiple_commands.split(maxsplit=1)
 
-        i.e. LEAF > plant tomato
-        """
+        single_expected = ['till']
+        multiple_expected = ['plant', 'lettuce']
 
-        command = 'plant tomato'.split(maxsplit=1)
-        result = len(command)
-        expected = 2
+        self.assertEqual(single_expected, single_result)
+        self.assertEqual(multiple_expected, multiple_result)
 
-        self.assertEqual(expected, result)
+    def test_PARSE_COMMANDS_function_single(self):
 
-    def test_if_command_exists(self):
+        # Single command
+        self.leafGameMechanics.rCommand = ['harvest']
+        self.leafGameMechanics.parse_commands()
 
-        command = 'help'
-        game = GameMechanics()
-        result = command in game.GAME_COMMANDS.keys()
-        expected = True
+        self.assertFalse(self.leafGameMechanics.isMultiple)
+        self.assertEqual('harvest', self.leafGameMechanics.command)
+        self.assertIsNone(self.leafGameMechanics.argument)
 
-        self.assertEqual(expected, result)
+    def test_PARSE_COMMANDS_function_multiple(self):
 
-    def test_assigning_and_executing_class_method(self):
+        # Multiple commands
+        self.leafGameMechanics.rCommand = ['plant', 'tomato']
+        self.leafGameMechanics.parse_commands()
 
-        game = GameMechanics()
-        execute = game.help
-        result = execute()
-        expected = None
-
-        self.assertEqual(expected, result)
-
-
-# Integration testing
-class LeafIntegrationTesting(unittest.TestCase):
-
-    def test_game_loop_flow(self):
-
-        ...
+        self.assertTrue(self.leafGameMechanics.isMultiple)
+        self.assertEqual('plant', self.leafGameMechanics.command)
+        self.assertEqual('tomato', self.leafGameMechanics.argument)
 
 
 if __name__ == '__main__':
