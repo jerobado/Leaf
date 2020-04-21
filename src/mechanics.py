@@ -16,11 +16,11 @@ class GameMechanics:
         self.GAME_COMMANDS = {'help': self.help,
                               'quit': self.quit}
         self.playerMechanics = PlayerMechanics()
-        self.rCommand = None        # user's raw command(s)
+        self.rCommand = None            # user's raw command(s)
         self.command = None
         self.argument = None
-        self.task = None            # function to execute
-        self.multiple = bool        # multiple commands or single
+        self.task = None                # function to execute
+        self.isMultiple = bool          # multiple commands or single
 
         self._combine_commands()
 
@@ -51,7 +51,7 @@ class GameMechanics:
         print('Leaf closing. See you soon!')
         sys.exit()
 
-    def startgame(self):
+    def start_game(self):
 
         self.welcome_message()
         while True:
@@ -64,7 +64,7 @@ class GameMechanics:
 
         message = f'Leaf\n' \
                   f'Simple text-based farming game for the bored developer.\n' \
-                  f'-------------------------------------------------------- \
+                  f'------------------------------------------------------- \
                     \n\nVersion: {__version__}' \
                   f'\n\nType \'help\' for the list of valid commands.'
         print(f'{message}')
@@ -76,13 +76,14 @@ class GameMechanics:
     def parse_commands(self):
 
         input_count = len(self.rCommand)
-        if input_count > 1:
-            self.command, self.argument = self.rCommand
-            self.multiple = True
-        else:
-            self.multiple = False
+        if input_count == 1:
+            self.isMultiple = False
             self.command = self.rCommand[0]
+        else:
+            self.command, self.argument = self.rCommand
+            self.isMultiple = True
 
+    # [] TODO: test next
     def get_command_type(self):
 
         self.task = self.GAME_COMMANDS.get(self.command,
@@ -90,7 +91,7 @@ class GameMechanics:
 
     def process_commands(self):
 
-        if self.multiple:
+        if self.isMultiple:
             self.task(self.argument)
         else:
             # [] TODO: test if the user add an extra argument which should not be
@@ -150,10 +151,8 @@ class PlayerMechanics:
     def check(self):
 
         # [] TODO: display growth percentage of planted crop
-        # [] TODO: display active and non-active threads
-        # [] TODO: status: currently thorws a NoneType error when there is no running thread
-        for id, plant in enumerate(self.growing_plants):
-            print(id, plant.name, plant.is_alive())
+        for index, plant in enumerate(self.growing_plants):
+            print(index, plant.name, plant.is_alive())
 
     def harvest(self):
 
@@ -172,6 +171,16 @@ class InventoryMechanics:
         # seed, duration (seconds)
         self.seeds = {'tomato': 15,
                       'lettuce': 16}
+
+    def add_item(self):
+
+        # [] TODO: implement adding new item(s) to inventory
+        ...
+
+    def remove_item(self):
+
+        # [] TODO: implement removing item(s) to inventory
+        ...
 
 
 class GrowthMechanics(threading.Thread):
