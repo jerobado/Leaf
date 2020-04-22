@@ -1,10 +1,11 @@
 # Classes of game mechanics
 
-
 import sys
 import time
 import threading
 from collections import deque
+from src.data.constant import (HELP,
+                               WELCOME_MESSAGE)
 
 __version__ = '0.1.3'
 
@@ -26,24 +27,6 @@ class GameMechanics:
 
     def help(self):
 
-        HELP = """\nLeaf valid commands:\n
-        till*           - till the current spot/location
-        plant* <seed>   - plant a particular seed
-        water           - water current spot/location
-        fertilize       - add fertilizer to current spot/location
-        harvest*        - harvest fully grown crop
-
-        check*          - examine soil
-
-        inventory       - display current items in inventory
-        market          - visit the farmer's market
-        buy             - buy item
-        sell            - sell item
-
-        help*           - show this help information
-        quit*           - exit the application
-
-    * - currently working"""
         print(HELP)
 
     def quit(self):
@@ -62,12 +45,7 @@ class GameMechanics:
 
     def welcome_message(self):
 
-        message = f'Leaf\n' \
-                  f'Simple text-based farming game for the bored developer.\n' \
-                  f'------------------------------------------------------- \
-                    \n\nVersion: {__version__}' \
-                  f'\n\nType \'help\' for the list of valid commands.'
-        print(f'{message}')
+        print(WELCOME_MESSAGE)
 
     def get_commands(self):
 
@@ -102,6 +80,7 @@ class GameMechanics:
         self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
 
     # GameMechanics command errors
+    # [] TODO: create custom error types, i.e. GameCommandError, PlayerCommandError, etc.
     def _unrecognized_command(self):
 
         print(f'\'{self.command}\' is not a valid command.\nSee \'help\' command.')
@@ -146,7 +125,7 @@ class PlayerMechanics:
             else:
                 print(f'You don\'t have a \'{seed}\' in your inventory.')
         else:
-            print('Incomplete command, must be plant <seed>, i.e. plant tomato')
+            print('Incomplete command, should be plant [seed], i.e. plant tomato')
 
     def check(self):
 
