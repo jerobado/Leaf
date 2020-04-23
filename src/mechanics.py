@@ -3,7 +3,8 @@
 import sys
 import time
 import threading
-from collections import deque
+from collections import (Counter,
+                         deque)
 from src.data.constant import (HELP,
                                WELCOME_MESSAGE)
 
@@ -17,6 +18,7 @@ class GameMechanics:
         self.GAME_COMMANDS = {'help': self.help,
                               'quit': self.quit}
         self.playerMechanics = PlayerMechanics()
+        self.inventoryMechancis = InventoryMechanics()
         self.rCommand = None            # user's raw command(s)
         self.command = None
         self.argument = None
@@ -78,6 +80,7 @@ class GameMechanics:
     def _combine_commands(self):
 
         self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
+        self.GAME_COMMANDS.update(self.inventoryMechancis.INVENTORY_COMMANDS)
 
     # GameMechanics command errors
     # [] TODO: create custom error types, i.e. GameCommandError, PlayerCommandError, etc.
@@ -147,9 +150,20 @@ class InventoryMechanics:
 
     def __init__(self):
 
+        self.INVENTORY_COMMANDS = {'inventory': self.inventory}
+
         # seed, duration (seconds)
         self.seeds = {'tomato': 15,
-                      'lettuce': 16}
+                      'lettuce': 16,
+                      'watermelon': 34}
+
+        self.quantityCounter = Counter(self.seeds.keys())
+
+    def inventory(self):
+
+        print(f'{"Item":<16}{"Quantity":<16}{"Duration (seconds)"}')
+        for name, duration in self.seeds.items():
+            print(f'{name:<16}{self.quantityCounter[name]:<16}{duration}')
 
     def add_item(self):
 
