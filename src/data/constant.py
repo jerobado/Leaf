@@ -1,6 +1,6 @@
 # Put all literal constants here
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 WELCOME_MESSAGE = f"""Leaf
 Simple text-based farming game for the bored developer.
