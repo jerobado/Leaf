@@ -23,3 +23,18 @@ Inventory commands:
 Game commands:
     help           - show this help information
     quit           - exit the game"""
+
+
+class SeedCatalog:
+
+    def __init__(self, seed):
+
+        self.seeds = {'tomato': 16,
+                      'lettuce': 15,
+                      'watermelon': 34}
+        self.duration = 0
+        self._generate_information(seed)
+
+    def _generate_information(self, seed):
+
+        self.duration = self.seeds.get(seed, None)
