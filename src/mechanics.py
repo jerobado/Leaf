@@ -113,22 +113,22 @@ class PlayerMechanics:
         time.sleep(5)
         print('soil tilled!')
 
+    # [] TODO: filter only seed type as valid argument, currently you can plant anything!
     def plant(self, seed=None):
 
         if seed:
-            print(f'plant: {self.playerInventoryMechanics.inventoryDeque=}')
             if seed in self.playerInventoryMechanics.inventoryDeque:
-                # Seed information
+                # Get seed information from Seed Catalog
                 seed_details = SeedCatalog(seed)
 
-                # [x] TODO: deduct 1 seed to player's inventory
-                # print(seed)
+                # Update player inventory
                 self.playerInventoryMechanics.remove_item(seed)
 
+                # Simulate planting
                 print(f'planting {seed}...')
                 time.sleep(3)
 
-                # start growing plant
+                # Start growing plant
                 self.plantGrowthMechanics = GrowthMechanics(seed, duration=seed_details.duration)
                 self.growing_plants.append(self.plantGrowthMechanics)
                 self.plantGrowthMechanics.start()
@@ -160,54 +160,31 @@ class InventoryMechanics:
 
         self.INVENTORY_COMMANDS = {'inventory': self.inventory,
                                    'add_item': self.add_item}
-
-        # seed, duration (seconds)
-        # self.seeds = {'tomato': 15,
-        #               'lettuce': 16,
-        #               'watermelon': 34}
-        #
-        # self.quantityCounter = Counter(self.seeds.keys())
-
-        # self.inventoryDeque = deque(['tomato',
-        #                              'lettuce',
-        #                              'watermelon',
-        #                              'tomato'])
         self.inventoryDeque = deque()
         self.inventoryCounter = Counter(self.inventoryDeque)
 
     def inventory(self):
 
-        # print(f'{"Item":<16}{"Quantity":<16}{"Duration (seconds)"}')
-        # for name, duration in self.seedsDeque:
-        #     print(f'{name:<16}{self.quantityCounter[name]:<16}{duration}')
+        print(f'{"ITEM":<16}{"QUANTITY":<16}')
+        for item in set(self.inventoryDeque):
+            print(f'{item:<16}{self.inventoryCounter[item]:<16}')
 
-        # print(f'{"Item":<16}{"Quantity":<16}')
-        # for item in set(self.inventoryDeque):
-        #     print(f'{item:<16}{self.inventoryCounter[item]:<16}')
-
-        # [x] TODO: Logic error: you are still getting the original result after updating your inventory, why?
-        print(f'inventory:\n{self.inventoryDeque=}\n{self.inventoryCounter=}')
-        print(f'{len(self.inventoryDeque)=}')
-
+    # [] TODO: you can literally add anything! Limit this!
     def add_item(self, item):
 
-        # [] TODO: implement adding new item(s) to inventory
         self.inventoryDeque.append(item)
 
         # update inventoryCounter
         self.inventoryCounter = Counter(self.inventoryDeque)
 
+        print(f'\'{item}\' added to inventory')
+
     def remove_item(self, item):
 
-        # [] TODO: implement removing item(s) to inventory
-        # print(item)
-        # print(self.inventoryDeque.remove(item))
         self.inventoryDeque.remove(item)
 
-        # update inventoryCounter
+        # Update inventoryCounter
         self.inventoryCounter = Counter(self.inventoryDeque)
-
-        print(f'remove_item: {self.inventoryDeque=}')
 
 
 class GrowthMechanics(threading.Thread):
