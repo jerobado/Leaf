@@ -16,8 +16,9 @@ class GameMechanics:
 
         self.GAME_COMMANDS = {'help': self.help,
                               'quit': self.quit}
+        self.inventoryMechanics = InventoryMechanics()
         self.playerMechanics = PlayerMechanics()
-        self.inventoryMechancis = InventoryMechanics()
+        self.playerMechanics.playerInventoryMechanics = self.inventoryMechanics
         self.rCommand = None            # user's raw command(s)
         self.command = None
         self.argument = None
@@ -79,7 +80,7 @@ class GameMechanics:
     def _combine_commands(self):
 
         self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
-        self.GAME_COMMANDS.update(self.inventoryMechancis.INVENTORY_COMMANDS)
+        self.GAME_COMMANDS.update(self.inventoryMechanics.INVENTORY_COMMANDS)
 
     # GameMechanics command errors
     # [] TODO: create custom error types, i.e. GameCommandError, PlayerCommandError, etc.
@@ -101,7 +102,7 @@ class PlayerMechanics:
                                 'check': self.check,
                                 'harvest': self.harvest}
 
-        self.playerInventoryMechanics = InventoryMechanics()
+        self.playerInventoryMechanics = None
         self.plantGrowthMechanics = None
         self.growing_plants = deque()        # list of active and non-active threads
 
@@ -120,7 +121,7 @@ class PlayerMechanics:
                 # Seed information
                 seed_details = SeedCatalog(seed)
 
-                # [] TODO: deduct 1 seed to player's inventory
+                # [x] TODO: deduct 1 seed to player's inventory
                 # print(seed)
                 self.playerInventoryMechanics.remove_item(seed)
 
@@ -184,7 +185,7 @@ class InventoryMechanics:
         # for item in set(self.inventoryDeque):
         #     print(f'{item:<16}{self.inventoryCounter[item]:<16}')
 
-        # [] TODO: Logic error: you are still getting the original result after updating your inventory, why?
+        # [x] TODO: Logic error: you are still getting the original result after updating your inventory, why?
         print(f'inventory:\n{self.inventoryDeque=}\n{self.inventoryCounter=}')
         print(f'{len(self.inventoryDeque)=}')
 
