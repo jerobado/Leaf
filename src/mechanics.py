@@ -68,6 +68,8 @@ class GameMechanics:
 
     # [] TODO: test next
     def get_command_type(self):
+        """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
+        command, this will map to InventoryMechanics.inventory() class function """
 
         self.task = self.GAME_COMMANDS.get(self.command,
                                            self._unrecognized_command)
