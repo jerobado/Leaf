@@ -59,9 +59,12 @@ class GameMechanics:
         if input_count == 1:
             self.isMultiple = False
             self.command = self.rCommand[0]
-        else:
+        elif input_count > 1:
             self.command, self.argument = self.rCommand
             self.isMultiple = True
+        else:
+            self.command = None
+            self.isMultiple = None
 
     # [] TODO: test next
     def get_command_type(self):
