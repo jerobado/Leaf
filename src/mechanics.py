@@ -55,11 +55,12 @@ class GameMechanics:
 
     def parse_commands(self):
 
-        input_count = len(self.rCommand)
-        if input_count == 1:
-            self.isMultiple = False
+        command_count = len(self.rCommand)
+        if command_count == 1:
             self.command = self.rCommand[0]
-        elif input_count > 1:
+            self.isMultiple = False
+        elif command_count > 1:
+            print(f'{self.rCommand=}')
             self.command, self.argument = self.rCommand
             self.isMultiple = True
         else:
