@@ -42,7 +42,7 @@ class GameMechanics:
         while True:
             self.get_commands()
             self.parse_commands()
-            self.get_command_type()
+            self.get_command_action()
             self.process_commands()
 
     def welcome_message(self):
@@ -66,8 +66,7 @@ class GameMechanics:
             self.command = None
             self.isMultiple = None
 
-    # [] TODO: test next
-    def get_command_type(self):
+    def get_command_action(self):
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
         command, this will map to InventoryMechanics.inventory() class function """
 

@@ -63,21 +63,21 @@ class TestGameMechanics(unittest.TestCase):
         self.assertEqual('plant', self.leafGameMechanics.command)
         self.assertEqual('tomato', self.leafGameMechanics.argument)
 
-    def test_GET_COMMAND_TYPE_function(self):
+    def test_GET_COMMAND_ACTION_function(self):
 
         # Game
         self.leafGameMechanics.command = 'help'
-        self.leafGameMechanics.get_command_type()
+        self.leafGameMechanics.get_command_action()
         self.assertTrue(self.leafGameMechanics.command in GameMechanics.__dict__.keys())
 
         # Inventory
         self.leafGameMechanics.command = 'inventory'
-        self.leafGameMechanics.get_command_type()
+        self.leafGameMechanics.get_command_action()
         self.assertTrue(self.leafGameMechanics.command in InventoryMechanics.__dict__.keys())
 
         # Player
         self.leafGameMechanics.command = 'plant'
-        self.leafGameMechanics.get_command_type()
+        self.leafGameMechanics.get_command_action()
         self.assertTrue(self.leafGameMechanics.command in PlayerMechanics.__dict__.keys())
 
 
