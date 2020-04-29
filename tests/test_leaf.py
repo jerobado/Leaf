@@ -3,7 +3,8 @@ import unittest
 import sys
 
 from src.mechanics import (GameMechanics,
-                           InventoryMechanics)
+                           InventoryMechanics,
+                           PlayerMechanics)
 
 
 class TestGameMechanics(unittest.TestCase):
@@ -62,31 +63,22 @@ class TestGameMechanics(unittest.TestCase):
         self.assertEqual('plant', self.leafGameMechanics.command)
         self.assertEqual('tomato', self.leafGameMechanics.argument)
 
-    def test_GET_COMMAND_TYPE_function_task_instance(self):
+    def test_GET_COMMAND_TYPE_function(self):
 
+        # Game
+        self.leafGameMechanics.command = 'help'
+        self.leafGameMechanics.get_command_type()
+        self.assertTrue(self.leafGameMechanics.command in GameMechanics.__dict__.keys())
+
+        # Inventory
         self.leafGameMechanics.command = 'inventory'
         self.leafGameMechanics.get_command_type()
+        self.assertTrue(self.leafGameMechanics.command in InventoryMechanics.__dict__.keys())
 
-        # print(self.leafGameMechanics.task)
-        print(self.leafGameMechanics.task)
-
-        expected = self.leafGameMechanics.task
-
-        # [] TODO: check if self.leafInventoryMechanics.task is a member of InventoryMechanics.__dict__
-
-        result = inspect.getmembers(InventoryMechanics)
-        print('using inspect')
-        for i, v in result:
-            if i == 'inventory':
-                print(i, v)
-                result = v
-
-        print('InventoryMechanics')
-        for i, v in InventoryMechanics.__dict__.items():
-            print(i, v)
-
-        self.leafGameMechanics.task()
-
+        # Player
+        self.leafGameMechanics.command = 'plant'
+        self.leafGameMechanics.get_command_type()
+        self.assertTrue(self.leafGameMechanics.command in PlayerMechanics.__dict__.keys())
 
 
 if __name__ == '__main__':
