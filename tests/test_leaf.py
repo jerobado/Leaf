@@ -80,6 +80,24 @@ class TestGameMechanics(unittest.TestCase):
         self.leafGameMechanics.get_command_action()
         self.assertTrue(self.leafGameMechanics.command in PlayerMechanics.__dict__.keys())
 
+    def test_PROCESS_COMMAND_function_isMultiple_false(self):
+
+        self.leafGameMechanics.rCommand = ['till']
+        self.leafGameMechanics.parse_commands()
+        self.leafGameMechanics.get_command_action()
+        self.leafGameMechanics.process_commands()
+
+        self.assertFalse(self.leafGameMechanics.isMultiple)
+
+    def test_PROCESS_COMMAND_function_isMultiple_true(self):
+
+        self.leafGameMechanics.rCommand = ['plant', 'tomato']
+        self.leafGameMechanics.parse_commands()
+        self.leafGameMechanics.get_command_action()
+        self.leafGameMechanics.process_commands()
+
+        self.assertTrue(self.leafGameMechanics.isMultiple)
+
 
 if __name__ == '__main__':
     unittest.main()
