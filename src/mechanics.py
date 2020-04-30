@@ -60,7 +60,6 @@ class GameMechanics:
             self.command = self.rCommand[0]
             self.isMultiple = False
         elif command_count > 1:
-            print(f'{self.rCommand=}')
             self.command, self.argument = self.rCommand
             self.isMultiple = True
         else:
@@ -72,13 +71,13 @@ class GameMechanics:
         command, this will map to InventoryMechanics.inventory() class function """
 
         self.task = self.GAME_COMMANDS.get(self.command,
-                                           self._unrecognized_command)
+                                           self._command_error)
 
     def process_commands(self):
 
         if self.isMultiple:
             self.task(self.argument)
-        else:
+        elif not self.isMultiple:
             # [] TODO: test if the user add an extra argument which should not be
             self.task()
 
@@ -89,6 +88,14 @@ class GameMechanics:
 
     # GameMechanics command errors
     # [] TODO: create custom error types, i.e. GameCommandError, PlayerCommandError, etc.
+    def _command_error(self):
+
+        if not self.command:
+            # Do nothing and continue the game loop
+            ...
+        elif self.command not in self.GAME_COMMANDS.keys():
+            self._unrecognized_command()
+
     def _unrecognized_command(self):
 
         print(f'\'{self.command}\' is not a valid command.\nSee \'help\' command.')
