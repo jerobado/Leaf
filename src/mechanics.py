@@ -1,5 +1,6 @@
 # Classes of game mechanics
 
+import inspect
 import sys
 import time
 import threading
@@ -70,21 +71,29 @@ class GameMechanics:
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
         command, this will map to InventoryMechanics.inventory() class function """
 
+        # [] TODO: 'jflkd' does not need to have an argument 'ejwk', random command become valid
         self.task = self.GAME_COMMANDS.get(self.command,
                                            self._command_error)
 
     def process_commands(self):
 
         if self.isMultiple:
-            self.task(self.argument)
-        elif not self.isMultiple:
-            # [] TODO: test if the user add an extra argument which should not be
+            if not self._incorrect_command_combination():
+                self.task(self.argument)
+            else:
+                self._incorrect_command()
+        else:
             self.task()
 
     def _combine_commands(self):
 
         self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
         self.GAME_COMMANDS.update(self.inventoryMechanics.INVENTORY_COMMANDS)
+
+    def _incorrect_command_combination(self):
+
+        callable_signature = inspect.signature(self.task)
+        return str(callable_signature) == '()' and self.argument
 
     # GameMechanics command errors
     # [] TODO: create custom error types, i.e. GameCommandError, PlayerCommandError, etc.
@@ -94,6 +103,7 @@ class GameMechanics:
             # Do nothing and continue the game loop
             ...
         elif self.command not in self.GAME_COMMANDS.keys():
+            print('executed?')
             self._unrecognized_command()
 
     def _unrecognized_command(self):
@@ -103,6 +113,10 @@ class GameMechanics:
     def _incomplete_command(self):
 
         print(f'{self.command} needs a value to work.')
+
+    def _incorrect_command(self):
+
+        print(f'\'{self.command}\' does not need to have an argument \'{self.argument}\'')
 
 
 class PlayerMechanics:
@@ -189,7 +203,7 @@ class InventoryMechanics:
         # update inventoryCounter
         self.inventoryCounter = Counter(self.inventoryDeque)
 
-        print(f'\'{item}\' added to inventory')
+        print(f'+\'{item}\' added to inventory')
 
     def remove_item(self, item):
 
