@@ -23,8 +23,9 @@ class GameMechanics:
         self.rCommand = None            # user's raw command(s)
         self.command = None
         self.argument = None
-        self.task = None                # function to execute
-        self.isMultiple = bool          # multiple commands or single
+        self.task = None                    # function to execute
+        self.isMultiple = bool              # multiple commands or single
+        self.isCommandMismatch = bool       # command and argument mismatch
 
         self._combine_commands()
 
@@ -43,6 +44,7 @@ class GameMechanics:
         while True:
             self.get_commands()
             self.parse_commands()
+            self.check_commands()       # add something to validate user commands before parsing
             self.get_command_action()
             self.process_commands()
             self.reset_commands()       # clear values of command and argument
@@ -68,6 +70,14 @@ class GameMechanics:
             self.command = None
             self.isMultiple = None
 
+    def check_commands(self):
+
+        self.isCommandMismatch = self._check_command_combination()
+
+        # Raise error
+        if self.isCommandMismatch:
+            self._incorrect_command()
+
     def get_command_action(self):
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
         command, this will map to InventoryMechanics.inventory() class function """
@@ -79,10 +89,8 @@ class GameMechanics:
     def process_commands(self):
 
         if self.isMultiple:
-            if not self._incorrect_command_combination():
+            if not self.isCommandMismatch:
                 self.task(self.argument)
-            else:
-                self._incorrect_command()
         else:
             self.task()
 
@@ -94,6 +102,14 @@ class GameMechanics:
 
         self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
         self.GAME_COMMANDS.update(self.inventoryMechanics.INVENTORY_COMMANDS)
+
+    def _check_command_combination(self):
+        """ Check if user command combinations are correct. """
+
+        task = self.GAME_COMMANDS.get(self.command)
+        task_signature = inspect.signature(task)
+
+        return str(task_signature) == '()' and self.argument
 
     def _incorrect_command_combination(self):
 
