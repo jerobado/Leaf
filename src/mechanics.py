@@ -45,6 +45,7 @@ class GameMechanics:
             self.parse_commands()
             self.get_command_action()
             self.process_commands()
+            self.reset_commands()       # clear values of command and argument
 
     def welcome_message(self):
 
@@ -84,6 +85,10 @@ class GameMechanics:
                 self._incorrect_command()
         else:
             self.task()
+
+    def reset_commands(self):
+
+        self.argument = None
 
     def _combine_commands(self):
 
