@@ -33,6 +33,14 @@ class TestGameMechanics(unittest.TestCase):
         self.assertEqual(single_expected, single_result)
         self.assertEqual(multiple_expected, multiple_result)
 
+    def test_CHECK_COMMANDS_function_command_combinations(self):
+        """ Test if user command combinations are incorrect, i.e. till pork or check pool. """
+
+        self.leafGameMechanics.rCommand = ['check', 'something']
+        self.leafGameMechanics.parse_commands()
+
+        self.assertTrue(self.leafGameMechanics._check_command_combination())
+
     def test_PARSE_COMMANDS_function_none(self):
         """ Test parse_command() if with no given command by the player. """
 
