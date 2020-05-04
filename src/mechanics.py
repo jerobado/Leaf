@@ -72,11 +72,8 @@ class GameMechanics:
 
     def check_commands(self):
 
-        self.isCommandMismatch = self._check_command_combination()
-
-        # Raise error
-        if self.isCommandMismatch:
-            self._incorrect_command()
+        if self.command:
+            self.isCommandMismatch = self._check_command_combination()
 
     def get_command_action(self):
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
@@ -91,6 +88,8 @@ class GameMechanics:
         if self.isMultiple:
             if not self.isCommandMismatch:
                 self.task(self.argument)
+            else:
+                self._incorrect_command()
         else:
             self.task()
 
@@ -109,7 +108,10 @@ class GameMechanics:
         task = self.GAME_COMMANDS.get(self.command)
         task_signature = inspect.signature(task)
 
-        return str(task_signature) == '()' and self.argument
+        if str(task_signature) == '()' and self.argument:
+            return True
+        else:
+            return False
 
     def _incorrect_command_combination(self):
 
@@ -124,12 +126,11 @@ class GameMechanics:
             # Do nothing and continue the game loop
             ...
         elif self.command not in self.GAME_COMMANDS.keys():
-            print('executed?')
             self._unrecognized_command()
 
     def _unrecognized_command(self):
 
-        print(f'\'{self.command}\' is not a valid command.\nSee \'help\' command.')
+        print(f'\'{self.command}\' is not a valid command.\n\nSee \'help\' command.')
 
     def _incomplete_command(self):
 
