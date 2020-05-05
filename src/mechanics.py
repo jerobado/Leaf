@@ -59,7 +59,7 @@ class GameMechanics:
 
     def parse_commands(self):
 
-        command_count = len(self.rCommand)
+        command_count = len(self.rCommand)  # [] TODO: create _command_count(command) -> int
         if command_count == 1:
             self.command = self.rCommand[0]
             self.isMultiple = False
@@ -79,7 +79,6 @@ class GameMechanics:
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
         command, this will map to InventoryMechanics.inventory() class function """
 
-        # [] TODO: 'jflkd' does not need to have an argument 'ejwk', random command become valid
         self.task = self.GAME_COMMANDS.get(self.command,
                                            self._command_error)
 
@@ -106,12 +105,15 @@ class GameMechanics:
         """ Check if user command combinations are correct. """
 
         task = self.GAME_COMMANDS.get(self.command)
-        task_signature = inspect.signature(task)
-
-        if str(task_signature) == '()' and self.argument:
-            return True
+        if task:
+            task_signature = inspect.signature(task)
+            if str(task_signature) == '()' and self.argument:
+                return True
+            else:
+                return False
         else:
-            return False
+            # [] TODO: refactor this -> 'jfdka' does not need to have an argument 'sjdkfa'
+            return True
 
     def _incorrect_command_combination(self):
 
@@ -125,7 +127,7 @@ class GameMechanics:
         if not self.command:
             # Do nothing and continue the game loop
             ...
-        elif self.command not in self.GAME_COMMANDS.keys():
+        else:
             self._unrecognized_command()
 
     def _unrecognized_command(self):
