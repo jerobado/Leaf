@@ -59,7 +59,7 @@ class GameMechanics:
 
     def parse_commands(self):
 
-        command_count = len(self.rCommand)  # [] TODO: create _command_count(command) -> int
+        command_count = self._count_commands(self.rCommand)
         if command_count == 1:
             self.command = self.rCommand[0]
             self.isMultiple = False
@@ -91,6 +91,10 @@ class GameMechanics:
                 self._incorrect_command()
         else:
             self.task()
+
+    def _count_commands(self, command):
+
+        return len(command)
 
     def reset_commands(self):
 
