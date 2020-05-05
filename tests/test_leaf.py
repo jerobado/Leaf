@@ -110,10 +110,22 @@ class TestGameMechanics(unittest.TestCase):
 
         self.leafGameMechanics.rCommand = ['plant', 'tomato']
         self.leafGameMechanics.parse_commands()
+        self.leafGameMechanics.check_commands()
         self.leafGameMechanics.get_command_action()
         self.leafGameMechanics.process_commands()
 
         self.assertTrue(self.leafGameMechanics.isMultiple)
+
+    def test_COUNT_COMMAND_function_result(self):
+
+        self.leafGameMechanics.rCommand = ['plant', 'tomato']
+        none_command = []
+        single_command = ['till']
+        multiple_command = ['plant', 'tomato']
+
+        self.assertEqual(0, self.leafGameMechanics._count_commands(none_command))
+        self.assertEqual(1, self.leafGameMechanics._count_commands(single_command))
+        self.assertEqual(2, self.leafGameMechanics._count_commands(multiple_command))
 
 
 if __name__ == '__main__':
