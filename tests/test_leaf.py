@@ -1,10 +1,14 @@
 import inspect
 import unittest
 import sys
+from datetime import (datetime,
+                      timedelta)
 
+from src.data.constant import SeedCatalog
 from src.mechanics import (GameMechanics,
                            InventoryMechanics,
-                           PlayerMechanics)
+                           PlayerMechanics,
+                           GrowthMechanics)
 
 
 class TestGameMechanics(unittest.TestCase):
@@ -126,6 +130,51 @@ class TestGameMechanics(unittest.TestCase):
         self.assertEqual(0, self.leafGameMechanics._count_commands(none_command))
         self.assertEqual(1, self.leafGameMechanics._count_commands(single_command))
         self.assertEqual(2, self.leafGameMechanics._count_commands(multiple_command))
+
+
+class TestGrowthMechanics(unittest.TestCase):
+
+    def setUp(self):
+
+        self.plantGrowthMechanics = GrowthMechanics('test-seed', 1)
+
+    def test_INIT_function_object_type(self):
+
+        self.assertIsInstance(self.plantGrowthMechanics.name, str)
+        self.assertIsInstance(self.plantGrowthMechanics.duration, int)
+
+    def test_INIT_function_time_started_attribute(self):
+
+        self.plantGrowthMechanics.start()
+
+        self.assertIsInstance(self.plantGrowthMechanics.time_started, datetime)
+
+    def test_ADD_DURATION_TO_TIME_STARTED_function(self):
+
+        self.plantGrowthMechanics = GrowthMechanics('test-seed', 14)
+        self.plantGrowthMechanics.start()
+
+        start = self.plantGrowthMechanics.time_started
+        duration = self.plantGrowthMechanics.duration
+        end = start + timedelta(seconds=duration)
+
+        # check if difference is 14 seconds
+        diff = end - timedelta(seconds=duration)
+
+        self.assertEqual(diff, start)
+
+    def test_REMAINING_TIME(self):
+
+        self.plantGrowthMechanics = GrowthMechanics('test-seed', 14)
+        self.plantGrowthMechanics.start()
+
+        start = self.plantGrowthMechanics.time_started
+        duration = self.plantGrowthMechanics.duration
+        end = start + timedelta(seconds=duration)
+        diff = end - timedelta(seconds=duration)
+        remaining = end - datetime.now()
+
+        self.assertEqual(14, remaining.seconds)
 
 
 if __name__ == '__main__':
