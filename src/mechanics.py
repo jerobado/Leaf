@@ -6,6 +6,7 @@ import time
 import threading
 from collections import (Counter,
                          deque)
+from datetime import datetime
 from src.data.constant import (HELP,
                                WELCOME_MESSAGE,
                                SeedCatalog)
@@ -246,9 +247,11 @@ class GrowthMechanics(threading.Thread):
     def __init__(self, seed, duration):
 
         super().__init__()
-        self.name = seed
-        self.duration = duration
+        self.name = str(seed)
+        self.duration = int(duration)
+        self.time_started = datetime
 
     def run(self):
 
+        self.time_started = datetime.now()
         time.sleep(self.duration)
