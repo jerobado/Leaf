@@ -6,7 +6,8 @@ import time
 import threading
 from collections import (Counter,
                          deque)
-from datetime import datetime
+from datetime import (datetime,
+                      timedelta)
 from src.data.constant import (HELP,
                                WELCOME_MESSAGE,
                                SeedCatalog)
@@ -255,8 +256,20 @@ class GrowthMechanics(threading.Thread):
         self.name = str(seed)
         self.duration = int(duration)
         self.time_started = datetime
+        self.time_remaining = timedelta
 
     def run(self):
 
         self.time_started = datetime.now()
         time.sleep(self.duration)
+
+    def _remaining_time(self):
+
+        start = self.time_started
+        end = start + timedelta(seconds=self.duration)
+        remaining = end - datetime.now()
+
+        if self.is_alive():
+            return remaining
+        else:
+            return timedelta()  # T-0
