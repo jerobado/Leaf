@@ -29,9 +29,9 @@ class SeedCatalog:
 
     def __init__(self, seed):
 
-        self.seeds = {'tomato': 16,
-                      'lettuce': 15,
-                      'watermelon': 34}
+        self.seeds = {'tomato': 202,
+                      'lettuce': 280,
+                      'watermelon': 306}
         self.duration = 0
         self._generate_information(seed)
 
