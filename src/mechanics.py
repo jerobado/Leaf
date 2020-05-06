@@ -195,9 +195,12 @@ class PlayerMechanics:
 
     def check(self):
 
+        PAD = 16
+
         # [] TODO: display growth percentage of planted crop
+        print(f'{"#":<10}{"DESCRIPTION":<{PAD}}{"REMAINING":<{PAD}}')
         for index, plant in enumerate(self.growing_plants):
-            print(index, plant.name, plant.is_alive())
+            print(f'{index:<10}{plant.name:<{PAD}}{plant._remaining_time()}')
 
     def harvest(self):
 
