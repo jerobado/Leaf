@@ -177,5 +177,25 @@ class TestGrowthMechanics(unittest.TestCase):
         self.assertEqual(14, remaining.seconds)
 
 
+class TestPlayerMechanics(unittest.TestCase):
+
+    def setUp(self):
+
+        self.playerMechanics = PlayerMechanics()
+
+    def test_TILL_isTilled_true(self):
+
+        self.playerMechanics.till()
+
+        self.assertTrue(self.playerMechanics.isTilled)
+
+    def test_PLANT_isTilled_false(self):
+        """ Test plant command to stop planting if isTilled is still False. """
+
+        self.playerMechanics.plant()
+
+        self.assertFalse(self.playerMechanics.isTilled)
+
+
 if __name__ == '__main__':
     unittest.main()
