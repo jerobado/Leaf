@@ -161,6 +161,7 @@ class PlayerMechanics:
         self.playerInventoryMechanics = None
         self.plantGrowthMechanics = None
         self.growing_plants = deque()        # list of active and non-active threads
+        self.isTilled = None
 
     def till(self):
 
@@ -168,31 +169,39 @@ class PlayerMechanics:
         print('tilling the soil...')
         time.sleep(5)
         print('soil tilled!')
+        self.isTilled = True
 
-    # [] TODO: filter only seed type as valid argument, currently you can plant anything!
+    # [] TODO: this is bad code design, do refactor this!
     def plant(self, seed=None):
 
-        if seed:
-            if seed in self.playerInventoryMechanics.inventoryDeque:
-                # Get seed information from Seed Catalog
-                seed_details = SeedCatalog(seed)
+        if self.isTilled:
+            if seed:
+                if seed in self.playerInventoryMechanics.inventoryDeque:
+                    # Get seed information from Seed Catalog
+                    seed_details = SeedCatalog(seed)
 
-                # Update player inventory
-                self.playerInventoryMechanics.remove_item(seed)
+                    # Update player inventory
+                    self.playerInventoryMechanics.remove_item(seed)
 
-                # Simulate planting
-                print(f'planting {seed}...')
-                time.sleep(3)
+                    # Simulate planting
+                    print(f'planting {seed}...')
+                    time.sleep(3)
 
-                # Start growing plant
-                self.plantGrowthMechanics = GrowthMechanics(seed, duration=seed_details.duration)
-                self.growing_plants.append(self.plantGrowthMechanics)
-                self.plantGrowthMechanics.start()
-                print(f'{seed} planted!')
+                    # Start growing plant
+                    self.plantGrowthMechanics = GrowthMechanics(seed, duration=seed_details.duration)
+                    self.growing_plants.append(self.plantGrowthMechanics)
+                    self.plantGrowthMechanics.start()
+                    print(f'{seed} planted!')
+
+                    # Reset isTilled
+                    self.isTilled = False
+                else:
+                    print(f'You don\'t have a \'{seed}\' in your inventory.')
             else:
-                print(f'You don\'t have a \'{seed}\' in your inventory.')
+                print('Incomplete command, should be plant [seed], i.e. plant tomato')
         else:
-            print('Incomplete command, should be plant [seed], i.e. plant tomato')
+            self.isTilled = False
+            print('You need to \'till\' the soil first before planting.')
 
     def check(self):
 
