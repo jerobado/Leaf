@@ -11,6 +11,10 @@ from datetime import (datetime,
 from src.data.constant import (HELP,
                                WELCOME_MESSAGE,
                                SeedCatalog)
+from src.errors import (NoCommandError,
+                        MismatchCommandError,
+                        UnregisteredCommandError,
+                        IncompleteCommandError)
 
 
 class GameMechanics:
@@ -44,12 +48,21 @@ class GameMechanics:
 
         self.welcome_message()
         while True:
-            self.get_commands()
-            self.parse_commands()
-            self.check_commands()       # add something to validate user commands before parsing
-            self.get_command_action()
-            self.process_commands()
-            self.reset_commands()       # clear values of command and argument
+            try:
+                self.get_commands()
+                self.parse_commands()
+                self.check_commands()       # add something to validate user commands before parsing
+                self.get_command_action()
+                self.process_commands()
+                self.reset_commands()       # clear values of command and argument
+            except NoCommandError:
+                continue
+            except MismatchCommandError:
+                continue
+            except UnregisteredCommandError:
+                continue
+            except IncompleteCommandError:
+                continue
 
     def welcome_message(self):
 
@@ -71,6 +84,7 @@ class GameMechanics:
         else:
             self.command = None
             self.isMultiple = None
+            raise NoCommandError
 
     def check_commands(self):
 
@@ -81,8 +95,14 @@ class GameMechanics:
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
         command, this will map to InventoryMechanics.inventory() class function """
 
-        self.task = self.GAME_COMMANDS.get(self.command,
-                                           self._command_error)
+        # self.task = self.GAME_COMMANDS.get(self.command,
+        #                                    self._command_error)
+
+        task = self.GAME_COMMANDS.get(self.command)
+        if task:
+            self.task = task
+        else:
+            raise UnregisteredCommandError(self.command)
 
     def process_commands(self):
 
@@ -90,7 +110,7 @@ class GameMechanics:
             if not self.isCommandMismatch:
                 self.task(self.argument)
             else:
-                self._incorrect_command()
+                raise MismatchCommandError(self.command, self.argument)
         else:
             self.task()
 
@@ -198,7 +218,9 @@ class PlayerMechanics:
                 else:
                     print(f'You don\'t have a \'{seed}\' in your inventory.')
             else:
-                print('Incomplete command, should be plant [seed], i.e. plant tomato')
+                # print('Incomplete command, should be plant [seed], i.e. plant tomato')
+                # [] TODO: this error must be implemented in the GameMechanics level
+                raise IncompleteCommandError('plant')
         else:
             self.isTilled = False
             print('You need to \'till\' the soil first before planting.')
