@@ -19,6 +19,7 @@ Player commands:
 
 Inventory commands:
     inventory      - display current items in your inventory
+    add [item]     - add valid item to inventory 
 
 Game commands:
     help           - show this help information
