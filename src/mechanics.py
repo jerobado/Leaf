@@ -199,7 +199,7 @@ class PlayerMechanics:
         PAD = 16
 
         # [] TODO: display growth percentage of planted crop
-        print(f'{"#":<10}{"DESCRIPTION":<{PAD}}{"REMAINING":<{PAD}}')
+        print(f'{"#":<10}{"DESCRIPTION":<{PAD}}{"REMAINING (h:mm:ss)":<{PAD}}')
         for index, plant in enumerate(self.growing_plants):
             print(f'{index:<10}{plant.name:<{PAD}}{plant._remaining_time()}')
 
@@ -270,6 +270,6 @@ class GrowthMechanics(threading.Thread):
         remaining = end - datetime.now()
 
         if self.is_alive():
-            return remaining
+            return str(remaining)[:-7]  # [:-7] truncates milliseconds
         else:
-            return timedelta()  # T-0
+            return timedelta()          # T-0
