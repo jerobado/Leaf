@@ -26,7 +26,7 @@ class GameMechanics:
         self.inventoryMechanics = InventoryMechanics()
         self.playerMechanics = PlayerMechanics()
         self.playerMechanics.playerInventoryMechanics = self.inventoryMechanics
-        self.rCommand = None            # user's raw command(s)
+        self.raw_command = None                # user's raw command(s)
         self.command = None
         self.argument = None
         self.task = None                    # function to execute
@@ -49,6 +49,7 @@ class GameMechanics:
         self.welcome_message()
         while True:
             try:
+                self.reset_commands()
                 self.get_commands()
                 self.parse_commands()
                 self.get_command_action()
@@ -68,16 +69,18 @@ class GameMechanics:
 
     def get_commands(self):
 
-        self.rCommand = str(input('\nLEAF > ')).split(maxsplit=1)
+        self.raw_command = str(input('\nLEAF > ')).split(maxsplit=1)
+        if not self.raw_command:
+            raise NoCommandError
 
     def parse_commands(self):
 
-        command_count = self._count_commands(self.rCommand)
+        command_count = len(self.raw_command)
         if command_count == 1:
-            self.command = self.rCommand[0]
+            self.command = self.raw_command[0]
             self.isMultiple = False
         elif command_count > 1:
-            self.command, self.argument = self.rCommand
+            self.command, self.argument = self.raw_command
             self.isMultiple = True
         else:
             self.command = None
@@ -94,6 +97,10 @@ class GameMechanics:
             raise UnregisteredCommandError(self.command)
 
     def process_commands(self):
+
+        task_signature = inspect.signature(self.task)
+        if str(task_signature) == '()' and self.argument:
+            raise MismatchCommandError(self.command, self.argument)
 
         if self.isMultiple:
             self.task(self.argument)
