@@ -17,7 +17,7 @@ class MismatchCommandError(LeafGameError):
 
     def __init__(self, command, argument):
 
-        print(f'\'{command}\' does not need to haxve an argument \'{argument}\'')
+        print(f'\'{command}\' does not need to have an argument \'{argument}\'')
 
 
 class UnregisteredCommandError(LeafGameError):
@@ -33,4 +33,4 @@ class IncompleteCommandError(LeafGameError):
 
     def __init__(self, command):
 
-        print(f'Incomplete \'{command}\', should be \'{command}\' [value], i.e. \'{command}\' value')
+        print(f'Incomplete command, should be {command} [value], i.e. {command} something')
