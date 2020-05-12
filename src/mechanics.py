@@ -109,6 +109,7 @@ class GameMechanics:
 
     def reset_commands(self):
 
+        self.command = None
         self.argument = None
 
     def _combine_commands(self):
