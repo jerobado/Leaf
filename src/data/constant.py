@@ -25,6 +25,8 @@ Game commands:
     help           - show this help information
     quit           - exit the game"""
 
+QUIT_MESSAGE = 'Leaf closing. See you soon!'
+
 
 class SeedCatalog:
 

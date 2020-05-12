@@ -10,6 +10,7 @@ from datetime import (datetime,
                       timedelta)
 from src.data.constant import (HELP,
                                WELCOME_MESSAGE,
+                               QUIT_MESSAGE,
                                SeedCatalog)
 from src.errors import (NoCommandError,
                         MismatchCommandError,
@@ -41,7 +42,7 @@ class GameMechanics:
 
     def quit(self):
 
-        print('Leaf closing. See you soon!')
+        print(QUIT_MESSAGE)
         sys.exit()
 
     def start_game(self):
