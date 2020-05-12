@@ -27,12 +27,11 @@ class GameMechanics:
         self.inventoryMechanics = InventoryMechanics()
         self.playerMechanics = PlayerMechanics()
         self.playerMechanics.playerInventoryMechanics = self.inventoryMechanics
-        self.raw_command = None                # user's raw command(s)
+        self.raw_command = None
         self.command = None
         self.argument = None
         self.task = None                    # function to execute
-        self.isMultiple = bool              # multiple commands or single
-        self.isCommandMismatch = bool       # command and argument mismatch
+        self.isCommandMultiple = bool       # multiple commands or single
 
         self._combine_commands()
 
@@ -79,13 +78,13 @@ class GameMechanics:
         command_count = len(self.raw_command)
         if command_count == 1:
             self.command = self.raw_command[0]
-            self.isMultiple = False
+            self.isCommandMultiple = False
         elif command_count > 1:
             self.command, self.argument = self.raw_command
-            self.isMultiple = True
+            self.isCommandMultiple = True
         else:
             self.command = None
-            self.isMultiple = None
+            self.isCommandMultiple = None
 
     def get_command_action(self):
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
@@ -103,7 +102,7 @@ class GameMechanics:
         if str(task_signature) == '()' and self.argument:
             raise MismatchCommandError(self.command, self.argument)
 
-        if self.isMultiple:
+        if self.isCommandMultiple:
             self.task(self.argument)
         else:
             self.task()
