@@ -51,10 +51,8 @@ class GameMechanics:
             try:
                 self.get_commands()
                 self.parse_commands()
-                self.check_commands()       # add something to validate user commands before parsing
                 self.get_command_action()
                 self.process_commands()
-                self.reset_commands()       # clear values of command and argument
             except NoCommandError:
                 continue
             except MismatchCommandError:
@@ -84,19 +82,10 @@ class GameMechanics:
         else:
             self.command = None
             self.isMultiple = None
-            raise NoCommandError
-
-    def check_commands(self):
-
-        if self.command:
-            self.isCommandMismatch = self._check_command_combination()
 
     def get_command_action(self):
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
         command, this will map to InventoryMechanics.inventory() class function """
-
-        # self.task = self.GAME_COMMANDS.get(self.command,
-        #                                    self._command_error)
 
         task = self.GAME_COMMANDS.get(self.command)
         if task:
@@ -107,16 +96,9 @@ class GameMechanics:
     def process_commands(self):
 
         if self.isMultiple:
-            if not self.isCommandMismatch:
-                self.task(self.argument)
-            else:
-                raise MismatchCommandError(self.command, self.argument)
+            self.task(self.argument)
         else:
             self.task()
-
-    def _count_commands(self, command):
-
-        return len(command)
 
     def reset_commands(self):
 
@@ -126,47 +108,6 @@ class GameMechanics:
 
         self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
         self.GAME_COMMANDS.update(self.inventoryMechanics.INVENTORY_COMMANDS)
-
-    def _check_command_combination(self):
-        """ Check if user command combinations are correct. """
-
-        task = self.GAME_COMMANDS.get(self.command)
-        if task:
-            task_signature = inspect.signature(task)
-            if str(task_signature) == '()' and self.argument:
-                return True
-            else:
-                return False
-        else:
-            # [] TODO: refactor this -> 'jfdka' does not need to have an argument 'sjdkfa'
-            return True
-
-    def _incorrect_command_combination(self):
-
-        callable_signature = inspect.signature(self.task)
-        return str(callable_signature) == '()' and self.argument
-
-    # GameMechanics command errors
-    # [] TODO: create custom error types, i.e. GameCommandError, PlayerCommandError, etc.
-    def _command_error(self):
-
-        if not self.command:
-            # Do nothing and continue the game loop
-            ...
-        else:
-            self._unrecognized_command()
-
-    def _unrecognized_command(self):
-
-        print(f'\'{self.command}\' is not a valid command.\n\nSee \'help\' command.')
-
-    def _incomplete_command(self):
-
-        print(f'{self.command} needs a value to work.')
-
-    def _incorrect_command(self):
-
-        print(f'\'{self.command}\' does not need to have an argument \'{self.argument}\'')
 
 
 class PlayerMechanics:
