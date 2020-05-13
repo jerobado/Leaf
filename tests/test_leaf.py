@@ -83,14 +83,14 @@ class TestGameMechanics(unittest.TestCase):
         self.leafGameMechanics.get_command_action()
         self.assertTrue(self.leafGameMechanics.command in PlayerMechanics.__dict__.keys())
 
-    def test_GET_COMMAND_ACTION_function_no_positional_argument(self):
-        """ Test if a class function that requires no positional arguments received one. """
+    def test_GET_COMMAND_ACTION_if_task_isMethod(self):
+        """ Test if 'task' is a valid method. """
 
-        self.leafGameMechanics.raw_command = ['till', 'extra']     # till should not have an extra argument
-        self.leafGameMechanics.parse_commands()
+        self.leafGameMechanics.command = 'till'
         self.leafGameMechanics.get_command_action()
 
-        self.assertTrue(self.leafGameMechanics._incorrect_command_combination())
+        result = inspect.ismethod(self.leafGameMechanics.task)
+        self.assertTrue(result)
 
     def test_PROCESS_COMMAND_function_isMultiple_false(self):
 
