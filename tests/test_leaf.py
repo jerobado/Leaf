@@ -102,24 +102,6 @@ class TestGameMechanics(unittest.TestCase):
 
         self.assertRaises(UnregisteredCommandError, result)
 
-    def test_PROCESS_COMMAND_function_isMultiple_false(self):
-
-        self.leafGameMechanics.raw_command = ['till']
-        self.leafGameMechanics.parse_commands()
-        self.leafGameMechanics.get_command_action()
-        self.leafGameMechanics.process_commands()
-
-        self.assertFalse(self.leafGameMechanics.isCommandMultiple)
-
-    def test_PROCESS_COMMAND_function_isMultiple_true(self):
-
-        self.leafGameMechanics.raw_command = ['plant', 'tomato']
-        self.leafGameMechanics.parse_commands()
-        self.leafGameMechanics.get_command_action()
-        self.leafGameMechanics.process_commands()
-
-        self.assertTrue(self.leafGameMechanics.isCommandMultiple)
-
 
 class TestGrowthMechanics(unittest.TestCase):
 
