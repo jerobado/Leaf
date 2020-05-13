@@ -6,6 +6,7 @@ from datetime import (datetime,
 
 from src.data.constant import SeedCatalog
 from src.errors import (NoCommandError,
+                        MismatchCommandError,
                         UnregisteredCommandError)
 from src.mechanics import (GameMechanics,
                            InventoryMechanics,
@@ -98,9 +99,38 @@ class TestGameMechanics(unittest.TestCase):
         """ Test if this will raise UnregisteredCommandError if the user enters an unregistered game commands. """
 
         self.leafGameMechanics.command = 'invalid-command'
-        result = self.leafGameMechanics.get_command_action
 
+        result = self.leafGameMechanics.get_command_action
         self.assertRaises(UnregisteredCommandError, result)
+
+    def test_PROCESS_COMMANDS_if_raises_MismatchCommandError(self):
+
+        self.leafGameMechanics.command = 'check'
+        self.leafGameMechanics.argument = 'something'
+        self.leafGameMechanics.get_command_action()
+
+        result = self.leafGameMechanics.process_commands
+        self.assertRaises(MismatchCommandError, result)
+
+    def test_PROCESS_COMMANDS_if_task_has_argument(self):
+
+        self.leafGameMechanics.raw_command = ['add', 'something']
+        self.leafGameMechanics.parse_commands()
+        self.leafGameMechanics.get_command_action()
+        self.leafGameMechanics.process_commands()
+
+        result = self.leafGameMechanics._object_signature(self.leafGameMechanics.task)
+        self.assertFalse(result)
+
+    def test_PROCESS_COMMANDS_if_task_has_no_argument(self):
+
+        self.leafGameMechanics.raw_command = ['check']
+        self.leafGameMechanics.parse_commands()
+        self.leafGameMechanics.get_command_action()
+        self.leafGameMechanics.process_commands()
+
+        result = self.leafGameMechanics._object_signature(self.leafGameMechanics.task)
+        self.assertTrue(result)
 
 
 class TestGrowthMechanics(unittest.TestCase):
