@@ -40,22 +40,22 @@ class TestGameMechanics(unittest.TestCase):
     def test_PARSE_COMMANDS_function_single(self):
 
         # Single command
-        self.leafGameMechanics.rCommand = ['harvest']
+        self.leafGameMechanics.raw_command = ['harvest']
         self.leafGameMechanics.parse_commands()
 
-        self.assertFalse(self.leafGameMechanics.isMultiple)
         self.assertEqual('harvest', self.leafGameMechanics.command)
+        self.assertFalse(self.leafGameMechanics.isCommandMultiple)
         self.assertIsNone(self.leafGameMechanics.argument)
 
     def test_PARSE_COMMANDS_function_multiple(self):
 
-        # Multiple commands
-        self.leafGameMechanics.rCommand = ['plant', 'tomato']
+        # Multiple commands (with argument)
+        self.leafGameMechanics.raw_command = ['plant', 'tomato']
         self.leafGameMechanics.parse_commands()
 
-        self.assertTrue(self.leafGameMechanics.isMultiple)
         self.assertEqual('plant', self.leafGameMechanics.command)
         self.assertEqual('tomato', self.leafGameMechanics.argument)
+        self.assertTrue(self.leafGameMechanics.isCommandMultiple)
 
     def test_GET_COMMAND_ACTION_function(self):
 
@@ -77,7 +77,7 @@ class TestGameMechanics(unittest.TestCase):
     def test_GET_COMMAND_ACTION_function_no_positional_argument(self):
         """ Test if a class function that requires no positional arguments received one. """
 
-        self.leafGameMechanics.rCommand = ['till', 'extra']     # till should not have an extra argument
+        self.leafGameMechanics.raw_command = ['till', 'extra']     # till should not have an extra argument
         self.leafGameMechanics.parse_commands()
         self.leafGameMechanics.get_command_action()
 
@@ -85,16 +85,16 @@ class TestGameMechanics(unittest.TestCase):
 
     def test_PROCESS_COMMAND_function_isMultiple_false(self):
 
-        self.leafGameMechanics.rCommand = ['till']
+        self.leafGameMechanics.raw_command = ['till']
         self.leafGameMechanics.parse_commands()
         self.leafGameMechanics.get_command_action()
         self.leafGameMechanics.process_commands()
 
-        self.assertFalse(self.leafGameMechanics.isMultiple)
+        self.assertFalse(self.leafGameMechanics.isCommandMultiple)
 
     def test_PROCESS_COMMAND_function_isMultiple_true(self):
 
-        self.leafGameMechanics.rCommand = ['plant', 'tomato']
+        self.leafGameMechanics.raw_command = ['plant', 'tomato']
         self.leafGameMechanics.parse_commands()
         self.leafGameMechanics.get_command_action()
         self.leafGameMechanics.process_commands()
