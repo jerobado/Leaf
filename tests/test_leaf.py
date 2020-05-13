@@ -18,6 +18,15 @@ class TestGameMechanics(unittest.TestCase):
         self.leafGameMechanics = GameMechanics()
         self.leafInventoryMechanics = InventoryMechanics()
 
+    def test_RESET_COMMANDS_function(self):
+
+        self.leafGameMechanics.command = 'plant'
+        self.leafGameMechanics.argument = 'coconut'
+        self.leafGameMechanics.reset_commands()
+
+        self.assertIsNone(self.leafGameMechanics.command)
+        self.assertIsNone(self.leafGameMechanics.argument)
+
     def test_GET_COMMANDS_function(self):
 
         none_commands = ''
