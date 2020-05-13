@@ -54,13 +54,7 @@ class GameMechanics:
                 self.parse_commands()
                 self.get_command_action()
                 self.process_commands()
-            except NoCommandError:
-                continue
-            except MismatchCommandError:
-                continue
-            except UnregisteredCommandError:
-                continue
-            except IncompleteCommandError:
+            except (NoCommandError, MismatchCommandError, UnregisteredCommandError, IncompleteCommandError):
                 continue
 
     def welcome_message(self):
