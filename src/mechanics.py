@@ -86,9 +86,6 @@ class GameMechanics:
         elif command_count > 1:
             self.command, self.argument = self.raw_command
             self.isCommandMultiple = True
-        else:
-            self.command = None
-            self.isCommandMultiple = None
 
     def get_command_action(self):
         """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
