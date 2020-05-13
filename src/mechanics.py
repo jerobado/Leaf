@@ -35,6 +35,11 @@ class GameMechanics:
 
         self._combine_commands()
 
+    def _combine_commands(self):
+
+        self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
+        self.GAME_COMMANDS.update(self.inventoryMechanics.INVENTORY_COMMANDS)
+
     def help(self):
 
         print(HELP)
@@ -60,6 +65,11 @@ class GameMechanics:
     def welcome_message(self):
 
         print(WELCOME_MESSAGE)
+
+    def reset_commands(self):
+
+        self.command = None
+        self.argument = None
 
     def get_commands(self):
 
@@ -100,16 +110,6 @@ class GameMechanics:
             self.task(self.argument)
         else:
             self.task()
-
-    def reset_commands(self):
-
-        self.command = None
-        self.argument = None
-
-    def _combine_commands(self):
-
-        self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
-        self.GAME_COMMANDS.update(self.inventoryMechanics.INVENTORY_COMMANDS)
 
 
 class PlayerMechanics:
