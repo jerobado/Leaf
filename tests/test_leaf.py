@@ -5,6 +5,8 @@ from datetime import (datetime,
                       timedelta)
 
 from src.data.constant import SeedCatalog
+from src.errors import (NoCommandError,
+                        UnregisteredCommandError)
 from src.mechanics import (GameMechanics,
                            InventoryMechanics,
                            PlayerMechanics,
@@ -91,6 +93,14 @@ class TestGameMechanics(unittest.TestCase):
 
         result = inspect.ismethod(self.leafGameMechanics.task)
         self.assertTrue(result)
+
+    def test_GET_COMMAND_ACTION_if_raises_UnregisteredCommandError(self):
+        """ Test if this will raise UnregisteredCommandError if the user enters an unregistered game commands. """
+
+        self.leafGameMechanics.command = 'invalid-command'
+        result = self.leafGameMechanics.get_command_action
+
+        self.assertRaises(UnregisteredCommandError, result)
 
     def test_PROCESS_COMMAND_function_isMultiple_false(self):
 
