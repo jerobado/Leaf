@@ -106,10 +106,6 @@ class GameMechanics:
         else:
             self.task()
 
-    def _object_signature(self, method):
-
-        return str(inspect.signature(method)) == '()'
-
     def _validate_command(self, method):
 
         signature = str(inspect.signature(method))

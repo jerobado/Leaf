@@ -113,26 +113,6 @@ class TestGameMechanics(unittest.TestCase):
         result = self.leafGameMechanics.process_commands
         self.assertRaises(MismatchCommandError, result)
 
-    def test_PROCESS_COMMANDS_if_task_has_argument(self):
-
-        self.leafGameMechanics.raw_command = ['add', 'something']
-        self.leafGameMechanics.parse_commands()
-        self.leafGameMechanics.get_command_action()
-        self.leafGameMechanics.process_commands()
-
-        result = self.leafGameMechanics._object_signature(self.leafGameMechanics.task)
-        self.assertFalse(result)
-
-    def test_PROCESS_COMMANDS_if_task_has_no_argument(self):
-
-        self.leafGameMechanics.raw_command = ['check']
-        self.leafGameMechanics.parse_commands()
-        self.leafGameMechanics.get_command_action()
-        self.leafGameMechanics.process_commands()
-
-        result = self.leafGameMechanics._object_signature(self.leafGameMechanics.task)
-        self.assertTrue(result)
-
     def test_VALIDATE_COMMAND_function_if_raises_MismatchCommandError(self):
 
         self.leafGameMechanics.command = 'check'
