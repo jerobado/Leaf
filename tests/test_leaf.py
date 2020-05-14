@@ -150,21 +150,21 @@ class TestGrowthMechanics(unittest.TestCase):
 
     def test_ADD_DURATION_TO_TIME_STARTED_function(self):
 
-        self.plantGrowthMechanics = GrowthMechanics('test-seed', 14)
+        self.plantGrowthMechanics = GrowthMechanics('test-seed', 3)
         self.plantGrowthMechanics.start()
 
         start = self.plantGrowthMechanics.time_started
         duration = self.plantGrowthMechanics.duration
         end = start + timedelta(seconds=duration)
 
-        # check if difference is 14 seconds
+        # check if difference is 3 seconds
         diff = end - timedelta(seconds=duration)
 
         self.assertEqual(diff, start)
 
     def test_REMAINING_TIME(self):
 
-        self.plantGrowthMechanics = GrowthMechanics('test-seed', 14)
+        self.plantGrowthMechanics = GrowthMechanics('test-seed', 3)
         self.plantGrowthMechanics.start()
 
         start = self.plantGrowthMechanics.time_started
@@ -173,7 +173,7 @@ class TestGrowthMechanics(unittest.TestCase):
         diff = end - timedelta(seconds=duration)
         remaining = end - datetime.now()
 
-        self.assertEqual(14, remaining.seconds)
+        self.assertEqual(3, remaining.seconds)
 
 
 class TestPlayerMechanics(unittest.TestCase):
