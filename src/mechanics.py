@@ -203,14 +203,9 @@ class InventoryMechanics:
     # [] TODO: you can literally add anything! Limit this!
     def add_item(self, item=None):
 
-        if item:
-            self.inventoryDeque.append(item)
-
-            # update inventoryCounter
-            self.inventoryCounter = Counter(self.inventoryDeque)
-            print(f'+1 \'{item}\' added to inventory')
-        else:
-            print('Incomplete command, should be add [item], i.e. add watermelon')
+        self.inventoryDeque.append(item)
+        self.inventoryCounter = Counter(self.inventoryDeque)    # Update inventoryCounter
+        print(f'+1 \'{item}\' added to inventory')
 
     def remove_item(self, item):
 
