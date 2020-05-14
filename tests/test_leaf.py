@@ -7,7 +7,8 @@ from datetime import (datetime,
 from src.data.constant import SeedCatalog
 from src.errors import (NoCommandError,
                         MismatchCommandError,
-                        UnregisteredCommandError)
+                        UnregisteredCommandError,
+                        IncompleteCommandError)
 from src.mechanics import (GameMechanics,
                            InventoryMechanics,
                            PlayerMechanics,
@@ -183,6 +184,7 @@ class TestPlayerMechanics(unittest.TestCase):
     def setUp(self):
 
         self.playerMechanics = PlayerMechanics()
+        self.playerMechanics.playerInventoryMechanics = InventoryMechanics()
 
     def test_TILL_isTilled_true(self):
 
@@ -190,11 +192,35 @@ class TestPlayerMechanics(unittest.TestCase):
 
         self.assertTrue(self.playerMechanics.isTilled)
 
-    def test_PLANT_isTilled_false(self):
-        """ Test plant command to stop planting if isTilled is still False. """
+    def test_PLANT_isTilled_false_and_return_zero(self):
+        """ Test isTilled if false and return 0 if till() is not called first. """
 
-        self.playerMechanics.plant()
+        result = self.playerMechanics.plant()
+        self.assertFalse(self.playerMechanics.isTilled)
+        self.assertEqual(0, result)
 
+    def test_PLANT_if_raises_IncompleteCommandError(self):
+
+        self.playerMechanics.isTilled = True
+
+        result = self.playerMechanics.plant
+        self.assertRaises(IncompleteCommandError, result)
+
+    def test_PLANT_if_seed_doesnt_exist_in_inventory(self):
+
+        self.playerMechanics.isTilled = True
+
+        result = self.playerMechanics.plant('coke')
+        self.assertEqual(0, result)
+
+    def test_PLANT_if_seed_has_been_planted(self):
+
+        seed = '__test_seed__'
+        self.playerMechanics.playerInventoryMechanics.add_item(seed)
+        self.playerMechanics.isTilled = True
+        self.playerMechanics.plant(seed)
+
+        self.assertNotIn(seed, self.playerMechanics.playerInventoryMechanics.inventoryDeque)
         self.assertFalse(self.playerMechanics.isTilled)
 
 
