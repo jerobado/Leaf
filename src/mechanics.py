@@ -141,9 +141,6 @@ class PlayerMechanics:
             print('You need to \'till\' the soil first before planting.')
             return 0
 
-        if not seed:
-            raise IncompleteCommandError('plant')
-
         if seed not in self.playerInventoryMechanics.inventoryDeque:
             print(f'You don\'t have a \'{seed}\' in your inventory.')
             return 0

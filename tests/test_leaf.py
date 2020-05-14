@@ -196,13 +196,6 @@ class TestPlayerMechanics(unittest.TestCase):
         self.assertFalse(self.playerMechanics.isTilled)
         self.assertEqual(0, result)
 
-    def test_PLANT_if_raises_IncompleteCommandError(self):
-
-        self.playerMechanics.isTilled = True
-
-        result = self.playerMechanics.plant
-        self.assertRaises(IncompleteCommandError, result)
-
     def test_PLANT_if_seed_doesnt_exist_in_inventory(self):
 
         self.playerMechanics.isTilled = True
