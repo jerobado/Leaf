@@ -96,22 +96,13 @@ class TestGameMechanics(unittest.TestCase):
         result = inspect.ismethod(self.leafGameMechanics.task)
         self.assertTrue(result)
 
-    def test_GET_COMMAND_ACTION_if_raises_UnregisteredCommandError(self):
-        """ Test if this will raise UnregisteredCommandError if the user enters an unregistered game commands. """
+    def test_VALIDATE_COMMAND_function_if_raises_UnregisteredCommandError(self):
 
-        self.leafGameMechanics.command = 'invalid-command'
-
-        result = self.leafGameMechanics.get_command_action
-        self.assertRaises(UnregisteredCommandError, result)
-
-    def test_PROCESS_COMMANDS_if_raises_MismatchCommandError(self):
-
-        self.leafGameMechanics.command = 'check'
-        self.leafGameMechanics.argument = 'something'
+        self.leafGameMechanics.command = 'unknown-command'
         self.leafGameMechanics.get_command_action()
 
-        result = self.leafGameMechanics.process_commands
-        self.assertRaises(MismatchCommandError, result)
+        result = self.leafGameMechanics._validate_command
+        self.assertRaises(UnregisteredCommandError, result, command=self.leafGameMechanics.command)
 
     def test_VALIDATE_COMMAND_function_if_raises_MismatchCommandError(self):
 
@@ -120,7 +111,7 @@ class TestGameMechanics(unittest.TestCase):
         self.leafGameMechanics.get_command_action()
 
         result = self.leafGameMechanics._validate_command
-        self.assertRaises(MismatchCommandError, result, method=self.leafGameMechanics.task)
+        self.assertRaises(MismatchCommandError, result, command=self.leafGameMechanics.command)
 
     def test_VALIDATE_COMMAND_function_if_raises_IncompleteCommandError(self):
 
@@ -128,7 +119,7 @@ class TestGameMechanics(unittest.TestCase):
         self.leafGameMechanics.get_command_action()
 
         result = self.leafGameMechanics._validate_command
-        self.assertRaises(IncompleteCommandError, result, method=self.leafGameMechanics.task)
+        self.assertRaises(IncompleteCommandError, result, command=self.leafGameMechanics.command)
 
 
 class TestGrowthMechanics(unittest.TestCase):
