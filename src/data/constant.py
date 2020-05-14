@@ -34,7 +34,8 @@ class SeedCatalog:
 
         self.seeds = {'tomato': 202,
                       'lettuce': 280,
-                      'watermelon': 306}
+                      'watermelon': 306,
+                      '__test_seed__': 3}
         self.duration = 0
         self._generate_information(seed)
 
