@@ -70,23 +70,6 @@ class TestGameMechanics(unittest.TestCase):
         self.assertEqual('tomato', self.leafGameMechanics.argument)
         self.assertTrue(self.leafGameMechanics.isCommandMultiple)
 
-    def test_GET_COMMAND_ACTION_function(self):
-
-        # Game
-        self.leafGameMechanics.command = 'help'
-        self.leafGameMechanics.get_command_action()
-        self.assertTrue(self.leafGameMechanics.command in GameMechanics.__dict__.keys())
-
-        # Inventory
-        self.leafGameMechanics.command = 'inventory'
-        self.leafGameMechanics.get_command_action()
-        self.assertTrue(self.leafGameMechanics.command in InventoryMechanics.__dict__.keys())
-
-        # Player
-        self.leafGameMechanics.command = 'plant'
-        self.leafGameMechanics.get_command_action()
-        self.assertTrue(self.leafGameMechanics.command in PlayerMechanics.__dict__.keys())
-
     def test_GET_COMMAND_ACTION_if_task_isMethod(self):
         """ Test if 'task' is a valid method. """
 
