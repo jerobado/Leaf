@@ -88,8 +88,6 @@ class GameMechanics:
             self.isCommandMultiple = True
 
     def get_command_action(self):
-        """ Get the corresponding class function for the player's input command. If the user hits the 'inventory'
-        command, this will map to InventoryMechanics.inventory() class function """
 
         task = self.GAME_COMMANDS.get(self.command)
         if task:
