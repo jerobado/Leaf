@@ -133,6 +133,23 @@ class TestGameMechanics(unittest.TestCase):
         result = self.leafGameMechanics._object_signature(self.leafGameMechanics.task)
         self.assertTrue(result)
 
+    def test_VALIDATE_COMMAND_function_if_raises_MismatchCommandError(self):
+
+        self.leafGameMechanics.command = 'check'
+        self.leafGameMechanics.argument = 'something'
+        self.leafGameMechanics.get_command_action()
+
+        result = self.leafGameMechanics._validate_command
+        self.assertRaises(MismatchCommandError, result, method=self.leafGameMechanics.task)
+
+    def test_VALIDATE_COMMAND_function_if_raises_IncompleteCommandError(self):
+
+        self.leafGameMechanics.command = 'plant'
+        self.leafGameMechanics.get_command_action()
+
+        result = self.leafGameMechanics._validate_command
+        self.assertRaises(IncompleteCommandError, result, method=self.leafGameMechanics.task)
+
 
 class TestGrowthMechanics(unittest.TestCase):
 
