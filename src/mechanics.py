@@ -24,6 +24,7 @@ class GameMechanics:
 
         self.GAME_COMMANDS = {'help': self.help,
                               'quit': self.quit}
+
         self.inventoryMechanics = InventoryMechanics()
         self.playerMechanics = PlayerMechanics()
         self.playerMechanics.playerInventoryMechanics = self.inventoryMechanics
@@ -189,6 +190,7 @@ class InventoryMechanics:
 
         self.INVENTORY_COMMANDS = {'inventory': self.inventory,
                                    'add': self.add_item}
+
         self.inventoryDeque = deque()
         self.inventoryCounter = Counter(self.inventoryDeque)
 
@@ -213,9 +215,7 @@ class InventoryMechanics:
     def remove_item(self, item):
 
         self.inventoryDeque.remove(item)
-
-        # Update inventoryCounter
-        self.inventoryCounter = Counter(self.inventoryDeque)
+        self.inventoryCounter = Counter(self.inventoryDeque)    # Update inventoryCounter
 
 
 class GrowthMechanics(threading.Thread):
