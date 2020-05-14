@@ -58,6 +58,7 @@ class GameMechanics:
                 self.reset_commands()
                 self.get_commands()
                 self.parse_commands()
+                self._validate_command(self.command)
                 self.get_command_action()
                 self.process_commands()
             except (NoCommandError, MismatchCommandError, UnregisteredCommandError, IncompleteCommandError):
@@ -88,30 +89,28 @@ class GameMechanics:
             self.command, self.argument = self.raw_command
             self.isCommandMultiple = True
 
-    def get_command_action(self):
+    def _validate_command(self, command):
 
-        task = self.GAME_COMMANDS.get(self.command)
-        if task:
-            self.task = task
-        else:
-            raise UnregisteredCommandError(self.command)
+        if command not in self.GAME_COMMANDS.keys():
+            raise UnregisteredCommandError(command)
 
-    def process_commands(self):
-
-        self._validate_command(self.task)
-
-        if self.isCommandMultiple:
-            self.task(self.argument)
-        else:
-            self.task()
-
-    def _validate_command(self, method):
-
+        method = self.GAME_COMMANDS.get(command)
         signature = str(inspect.signature(method))
         if signature == '()' and self.argument:
             raise MismatchCommandError(self.command, self.argument)
         elif signature != '()' and not self.argument:
             raise IncompleteCommandError(self.command)
+
+    def get_command_action(self):
+
+        self.task = self.GAME_COMMANDS.get(self.command)
+
+    def process_commands(self):
+
+        if self.isCommandMultiple:
+            self.task(self.argument)
+        else:
+            self.task()
 
 
 class PlayerMechanics:
@@ -130,7 +129,6 @@ class PlayerMechanics:
 
     def till(self):
 
-        # [] TODO: add a mechanics that will prevent other commands from executing if this is not executed first
         print('tilling the soil...')
         time.sleep(5)
         print('soil tilled!')
