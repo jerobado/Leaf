@@ -99,8 +99,7 @@ class GameMechanics:
 
     def process_commands(self):
 
-        if self._object_signature(self.task) and self.argument:
-            raise MismatchCommandError(self.command, self.argument)
+        self._validate_command(self.task)
 
         if self.isCommandMultiple:
             self.task(self.argument)
@@ -110,6 +109,14 @@ class GameMechanics:
     def _object_signature(self, method):
 
         return str(inspect.signature(method)) == '()'
+
+    def _validate_command(self, method):
+
+        signature = str(inspect.signature(method))
+        if signature == '()' and self.argument:
+            raise MismatchCommandError(self.command, self.argument)
+        elif signature != '()' and not self.argument:
+            raise IncompleteCommandError(self.command)
 
 
 class PlayerMechanics:
