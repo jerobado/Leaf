@@ -200,7 +200,7 @@ class InventoryMechanics:
             print(f'{item:<16}{self.inventoryCounter[item]:<16}')
 
     # [] TODO: you can literally add anything! Limit this!
-    def add_item(self, item=None):
+    def add_item(self, item):
 
         self.inventoryDeque.append(item)
         self.inventoryCounter = Counter(self.inventoryDeque)    # Update inventoryCounter
