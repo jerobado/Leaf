@@ -187,7 +187,8 @@ class InventoryMechanics:
     def __init__(self):
 
         self.INVENTORY_COMMANDS = {'inventory': self.inventory,
-                                   'add': self.add_item}
+                                   'add': self.add_item,
+                                   'remove': self.remove_item}
 
         self.inventoryDeque = deque()
         self.inventoryCounter = Counter(self.inventoryDeque)
@@ -207,8 +208,15 @@ class InventoryMechanics:
 
     def remove_item(self, item):
 
+        if item not in self.inventoryDeque:
+            print(f'You don\'t have a \'{item}\' in your inventory.')
+            return 0
+
         self.inventoryDeque.remove(item)
         self.inventoryCounter = Counter(self.inventoryDeque)    # Update inventoryCounter
+
+        # [] TODO: know the caller of this function
+        print(f'\'{item}\' removed from inventory')
 
 
 class GrowthMechanics(threading.Thread):
