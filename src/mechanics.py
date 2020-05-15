@@ -75,7 +75,7 @@ class GameMechanics:
 
     def get_commands(self):
 
-        self.raw_command = str(input('\nLEAF > ')).split(maxsplit=1)
+        self.raw_command = str(input('\n🍂 ')).split(maxsplit=1)
         if not self.raw_command:
             raise NoCommandError
 
