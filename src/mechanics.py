@@ -215,8 +215,9 @@ class InventoryMechanics:
         self.inventoryDeque.remove(item)
         self.inventoryCounter = Counter(self.inventoryDeque)    # Update inventoryCounter
 
-        # [] TODO: know the caller of this function
-        print(f'\'{item}\' removed from inventory')
+        frame = inspect.currentframe()
+        if frame.f_back.f_code.co_name == 'process_commands':
+            print(f'\'{item}\' removed from inventory')
 
 
 class GrowthMechanics(threading.Thread):
