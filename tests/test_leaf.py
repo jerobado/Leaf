@@ -188,5 +188,35 @@ class TestPlayerMechanics(unittest.TestCase):
         self.assertFalse(self.playerMechanics.isTilled)
 
 
+class TestInventoryMechanics(unittest.TestCase):
+
+    def setUp(self):
+
+        self.playerMechanics = PlayerMechanics()
+        self.playerMechanics.playerInventoryMechanics = InventoryMechanics()
+
+    def test_ADD_ITEM_function_if_seed_exists_in_inventory(self):
+
+        seed = 'eggplant'
+        self.playerMechanics.playerInventoryMechanics.add_item(seed)
+
+        self.assertIn(seed, self.playerMechanics.playerInventoryMechanics.inventoryDeque)
+
+    def test_REMOVE_ITEM_function_if_seed_removed_in_inventory(self):
+
+        seed = 'grape'
+        self.playerMechanics.playerInventoryMechanics.inventoryDeque.append(seed)
+        self.playerMechanics.playerInventoryMechanics.remove_item(seed)
+
+        self.assertNotIn(seed, self.playerMechanics.playerInventoryMechanics.inventoryDeque)
+
+    def test_REMOVE_ITEM_if_will_return_zero_if_seed_doesnt_exist(self):
+
+        seed = 'rock'
+
+        result = self.playerMechanics.playerInventoryMechanics.remove_item(seed)
+        self.assertEqual(0, result)
+
+
 if __name__ == '__main__':
     unittest.main()
