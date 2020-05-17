@@ -187,6 +187,15 @@ class TestPlayerMechanics(unittest.TestCase):
         self.assertNotIn(seed, self.playerMechanics.playerInventoryMechanics.inventoryDeque)
         self.assertFalse(self.playerMechanics.isTilled)
 
+    def test_HARVEST_function_if_will_add_item_to_inventory(self):
+
+        seed = 'tomato'
+        crop = GrowthMechanics(seed, duration=1)
+        self.playerMechanics.growing_plants.append(crop)
+
+        self.playerMechanics.harvest()
+        self.assertIn(crop.name, self.playerMechanics.playerInventoryMechanics.inventoryDeque)
+
 
 class TestInventoryMechanics(unittest.TestCase):
 
