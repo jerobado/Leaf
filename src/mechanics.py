@@ -177,9 +177,15 @@ class PlayerMechanics:
         # [] TODO: display harvestable (100% growth) crops
         # [] TODO: you can only harvest thread that completed its task
         if self.growing_plants:
-            print(f'Harvesting \'{self.growing_plants.popleft().name}\'...')
+            crop = self.growing_plants.popleft().name.replace('seed', 'crop')
+
+            # Simulate harvesting
+            print(f'Harvesting \'{crop}\'...')
             time.sleep(4)
             print('Done!')
+
+            # Add harvested crop to inventoryH
+            self.playerInventoryMechanics.add_item(crop)
 
 
 class InventoryMechanics:
