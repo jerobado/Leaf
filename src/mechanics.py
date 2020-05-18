@@ -182,7 +182,7 @@ class PlayerMechanics:
         # [] TODO: display harvestable (100% growth) crops
         # [] TODO: you can only harvest thread that completed its task
         if self.growing_plants:
-            crop = self.growing_plants.popleft().name.replace('seed', 'crop')
+            crop = self.growing_plants.popleft().name.replace(' seed', '')
 
             # Simulate harvesting
             print(f'Harvesting \'{crop}\'...')
