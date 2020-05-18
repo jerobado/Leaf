@@ -177,6 +177,15 @@ class TestPlayerMechanics(unittest.TestCase):
         result = self.playerMechanics.plant('coke')
         self.assertEqual(0, result)
 
+    def test_PLANT_if_seed_not_valid(self):
+
+        seed = 'stone'
+        self.playerMechanics.isTilled = True
+        self.playerMechanics.playerInventoryMechanics.add_item(seed)
+
+        result = self.playerMechanics.plant(seed)
+        self.assertEqual(0, result)
+
     def test_PLANT_if_seed_has_been_planted(self):
 
         seed = '__test_seed__'
