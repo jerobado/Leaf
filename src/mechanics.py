@@ -147,6 +147,10 @@ class PlayerMechanics:
         # Get seed information from Seed Catalog
         seed_details = SeedCatalog(seed)
 
+        if seed not in seed_details.seeds.keys():
+            print(f'\'{seed}\' is not a valid seed.')
+            return 0
+
         # Remove seed in player's inventory
         self.playerInventoryMechanics.remove_item(seed)
 
@@ -205,7 +209,6 @@ class InventoryMechanics:
         for item in set(self.inventoryDeque):
             print(f'{item:<16}{self.inventoryCounter[item]:<16}')
 
-    # [] TODO: you can literally add anything! Limit this!
     def add_item(self, item):
 
         self.inventoryDeque.append(item)
