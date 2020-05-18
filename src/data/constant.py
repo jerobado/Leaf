@@ -33,10 +33,38 @@ class SeedCatalog:
 
     def __init__(self, seed):
 
-        self.seeds = {'tomato seed': 202,
-                      'lettuce seed': 280,
-                      'watermelon seed': 306,
-                      '__test_seed__': 3}
+        self.seeds = {'grape seed':             60 * 8 + 5,
+                      'melon seed':             60 * 4 + 46,
+                      'watermelon seed':        60 * 4 + 36,
+                      'tangerine seed':         60 * 5 + 11,
+                      'lemon seed':             60 * 6 + 47,
+                      'banana seed':            60 * 8 + 46,
+                      'pineapple seed':         60 * 5 + 6,
+                      'mango seed':             60 * 10 + 25,
+                      'red apple seed':         60 * 8 + 24,
+                      'green apple seed':       60 * 6 + 5,
+                      'pear seed':              60 * 5 + 2,
+                      'peach seed':             60 * 3 + 35,
+                      'cherries seed':          60 * 7 + 29,
+                      'strawberry seed':        60 * 7 + 37,
+                      'kiwi seed':              60 * 4 + 28,
+                      'tomato seed':            60 * 3 + 51,
+                      'coconut seed':           60 * 10 + 22,
+                      'avocado seed':           60 * 10 + 9,
+                      'eggplant seed':          60 * 4 + 9,
+                      'potato seed':            60 * 4 + 22,
+                      'carrot seed':            60 * 4,
+                      'corn seed':              60 * 4 + 50,
+                      'hot pepper seed':        60 * 4 + 49,
+                      'cucumber seed':          60 * 3 + 21,
+                      'bok choy seed':          60 * 4 + 1,
+                      'broccoli seed':          60 * 3 + 36,
+                      'garlic seed':            60 * 3 + 36,
+                      'onion seed':             60 * 5 + 21,
+                      'mushroom seed':          60 * 4 + 31,
+                      'peanut seed':            60 * 4 + 25,
+                      'chestnut seed':          60 * 5 + 4,
+                      '__test_seed__':          3}
         self.duration = 0
         self._generate_information(seed)
 
