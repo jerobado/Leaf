@@ -47,6 +47,7 @@ class GameMechanics:
 
     def quit(self):
 
+        # [] TODO: terminate all active threads
         print(QUIT_MESSAGE)
         sys.exit()
 
@@ -205,6 +206,7 @@ class InventoryMechanics:
 
     def inventory(self):
 
+        # [] TODO: update padding
         print(f'{"ITEM":<16}{"QUANTITY":<16}')
         for item in set(self.inventoryDeque):
             print(f'{item:<16}{self.inventoryCounter[item]:<16}')
