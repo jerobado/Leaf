@@ -228,7 +228,7 @@ class InventoryMechanics:
 
         frame = inspect.currentframe()
         if frame.f_back.f_code.co_name == 'process_commands':
-            print(f'\'{item}\' removed from inventory')
+            print(f'-1 \'{item}\' removed from inventory')
 
 
 class GrowthMechanics(threading.Thread):
