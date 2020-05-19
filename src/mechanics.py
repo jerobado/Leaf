@@ -50,7 +50,6 @@ class GameMechanics:
 
     def quit(self):
 
-        # [] TODO: terminate all active threads
         print(QUIT_MESSAGE)
         sys.exit()
 
@@ -239,6 +238,7 @@ class GrowthMechanics(threading.Thread):
     def __init__(self, seed, duration):
 
         super().__init__()
+        self.daemon = True
         self.name = str(seed)
         self.duration = int(duration)
         self.time_started = datetime
