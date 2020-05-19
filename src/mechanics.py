@@ -8,6 +8,7 @@ from collections import (Counter,
                          deque)
 from datetime import (datetime,
                       timedelta)
+from itertools import islice
 from src.data.constant import (HELP,
                                WELCOME_MESSAGE,
                                QUIT_MESSAGE,
@@ -270,6 +271,5 @@ class Catalog:
     def seeds(self):
 
         print(f'{"SEED":<20}{"DURATION (seconds)"}')
-        for seed, duration in sorted(SEEDS.items()):
-            if seed == '__test_seed__': continue
+        for seed, duration in islice(sorted(SEEDS.items()), 1, None):   # Using islice to skip __test_seed__
             print(f'{seed:<20}{duration}')
