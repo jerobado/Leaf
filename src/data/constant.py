@@ -22,6 +22,9 @@ Inventory commands:
     add [item]     - add valid item to inventory
     remove [item]  - remove valid item from inventory 
 
+Catalog commands:
+    seeds          - show list of valid seeds that can be planted
+
 Game commands:
     help           - show this help information
     quit           - exit the game"""
