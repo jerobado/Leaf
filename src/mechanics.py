@@ -11,6 +11,7 @@ from datetime import (datetime,
 from src.data.constant import (HELP,
                                WELCOME_MESSAGE,
                                QUIT_MESSAGE,
+                               SEEDS,
                                SeedCatalog)
 from src.errors import (NoCommandError,
                         MismatchCommandError,
@@ -25,6 +26,7 @@ class GameMechanics:
         self.GAME_COMMANDS = {'help': self.help,
                               'quit': self.quit}
 
+        self.catalog = Catalog()
         self.inventoryMechanics = InventoryMechanics()
         self.playerMechanics = PlayerMechanics()
         self.playerMechanics.playerInventoryMechanics = self.inventoryMechanics
@@ -40,6 +42,7 @@ class GameMechanics:
 
         self.GAME_COMMANDS.update(self.playerMechanics.PLAYER_COMMANDS)
         self.GAME_COMMANDS.update(self.inventoryMechanics.INVENTORY_COMMANDS)
+        self.GAME_COMMANDS.update(self.catalog.CATALOG_COMMANDS)
 
     def help(self):
 
@@ -256,3 +259,17 @@ class GrowthMechanics(threading.Thread):
             return str(remaining)[:-7]  # [:-7] truncates milliseconds
         else:
             return timedelta()          # T-0
+
+
+class Catalog:
+
+    def __init__(self):
+
+        self.CATALOG_COMMANDS = {'seeds': self.seeds}
+
+    def seeds(self):
+
+        print(f'{"SEED":<20}{"DURATION (seconds)"}')
+        for seed, duration in sorted(SEEDS.items()):
+            if seed == '__test_seed__': continue
+            print(f'{seed:<20}{duration}')
