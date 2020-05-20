@@ -5,5 +5,8 @@ __pycache__
 # PyCharm stuff
 .idea
 
+# cx_Freeze build files
+build
+
 # Personal files
 _todo.txt
