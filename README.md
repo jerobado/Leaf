@@ -4,11 +4,16 @@ A simple text-based farming game for the bored developer.
 
 ### Game mechanics
 - plant, grow and harvest crops
-- buy and sell crops to the farmer's market (todo)
 
 ### System Requirements
-- OS: Windows 10 64-bit
+- Operating System (OS): Windows 10 64-bit
+- Memory: 6 MB
 - Storage: 20 MB
+
+### Installation
+1. Download the [latest version](https://github.com/jerobado/Leaf/releases)
+2. Unzip/extract the downloaded archive file
+3. Open the extracted folder and run `leaf.exe` file
 
 ### Influence
 - Stardew Valley (not there yet)
