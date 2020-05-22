@@ -1,4 +1,4 @@
-# Leaf
+# 🍂 Leaf
 A simple text-based farming game for the bored developer.
 
 ![Leaf Demo](https://github.com/jerobado/Leaf/blob/master/media/image/leaf-demo.gif)
